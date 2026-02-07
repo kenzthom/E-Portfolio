@@ -1,6 +1,6 @@
 ---
 title: "Capstone Project: GIS-Based Site Suitability Analysis for Solar Farms in British Columbia, Canada"
-image: "suitability_cover.png" 
+image: "Cover_Page_yellow.png" 
 ---
 
 This project evaluates potential locations for utility-scale (1MW+) solar farm development using a GIS-based multi-criteria decision analysis (MCDA). The study integrates environmental, technical, and economic considerations to identify areas most suitable for solar farm development. Data incorperated into the mask layer includes:
