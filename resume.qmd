@@ -4,82 +4,82 @@ title: "Resume"
 
 # **Education**
 
-§  **The University of British Columbia Vancouver** *Masters of Geomatics for Environmental Management (MGEM)*
+-   **The University of British Columbia Vancouver** *Masters of Geomatics for Environmental Management (MGEM)*
 
-Current
+    Current
 
-Concentration: ArcGIS Pro, QGIS, Remote Sensing, R, Python, PostgreSQL, Database Management
+    Concentration: ArcGIS Pro, QGIS, Remote Sensing, R, Python, PostgreSQL, Database Management
 
-§  **The University of British Columbia Okanagan** *B.A. Major in Geography*
+-   **The University of British Columbia Okanagan** *B.A. Major in Geography*
 
-May 2023
+    May 2023
 
-Concentration: Earth Sciences, ESRI ArcGIS Products
-
-# **Relevant Work Experience**
-
-§  **Chartwell Resource Group Ltd.** *Jr. Forestry Field Technician*
-
-August 2024 – August 2025
-
-Collected, analyzed, and mapped data on tree stands to manage forest vegetation health, growth, and natural resources. Designed and established GPS-marked harvest block boundaries and access roads. Utilized ArcGIS Field Maps, QGIS and RoadEng for effective data visualizations that support informed decision making. Supported the execution of hydro-based capital projects.  
-
-§  **The City of Vancouver** *Assistant Wildlife Technician*
-
-April 2023 – December 2023
-
-Assisted in developing and implementing the Park Board’s Canada Goose Management Plan. Conducted field surveys to monitor population, habitat use, and behavior. 2 Leveraged data collected in ArcGIS FieldMaps to inform management strategies. Collaborated with local stakeholders to ensure effective wildlife management.
-
-# Reports
-
-§  (Eventually...) **GIS-Based Site Suitability Analysis for Solar Farms in British Columbia, Canada**
-
-# Awards & Honors
-
-§  **Dean’s List, The University of British Columbia**
-
-A designation that recognizes exceptional academic achievements. Awarded to students that receive an average of 85% or higher on at least 27 credits per session.
-
-Achieved September 2018 – May 2023
-
-§  **Deputy Vice-Chancellor Scholarship, The University of British Columbia**
-
-Awarded to the top 10% of returning domestic students based on academic achievement in the previous year.
-
-Achieved September 2018 – May 2023
+    Concentration: Earth Sciences, ESRI ArcGIS Products
 
 # Teaching Assistantships
 
-§  **The University of British Columbia** *Geomatics for Natural Resource Management Laboratory Teachers Assistant*
+-   **The University of British Columbia** *Geomatics for Natural Resource Management Laboratory Teaching Assistant*
 
-*Current*
+    *Current*
 
-Support undergraduate students in applied geomatics labs, including GIS, remote sensing, and spatial data analysis for natural resource management. Provided technical guidance on workflows and troubleshooting to reinforce geospatial concepts and analytical accuracy. Assist with grading, lab evaluation, and instructional support to ensure consistency with course learning objectives.
+    Support undergraduate students in applied geomatics labs, including GIS, remote sensing, and spatial data analysis for natural resource management. Provided technical guidance on workflows and troubleshooting to reinforce geospatial concepts and analytical accuracy. Assist with grading, lab evaluation, and instructional support to ensure consistency with course learning objectives.
 
-§  **The University of British Columbia** *Earth Systems Laboratory Teaching Assistant*
+-   **The University of British Columbia** *Earth Systems Laboratory Teaching Assistant*
 
-August 2020 – December 2020
+    August 2020 – December 2020
 
-Co-created engaging lesson plans that integrated real-world environmental issues. Provided individualized guidance to students during labs to deepen their understanding of scientific concepts and procedures. Managed assignment and exam grading with accuracy and consistency
+    Co-created engaging lesson plans that integrated real-world environmental issues. Provided individualized guidance to students during labs to deepen their understanding of scientific concepts and procedures. Managed assignment and exam grading with accuracy and consistency
+
+# **Relevant Work Experience**
+
+-   **Chartwell Resource Group Ltd.** *Jr. Forestry Field Technician*
+
+    August 2024 – August 2025
+
+    Collected, analyzed, and mapped data on tree stands to manage forest vegetation health, growth, and natural resources. Designed and established GPS-marked harvest block boundaries and access roads. Utilized ArcGIS Field Maps, QGIS and RoadEng for effective data visualizations that support informed decision making. Supported the execution of hydro-based capital projects.  
+
+-   **The City of Vancouver** *Assistant Wildlife Technician*
+
+    April 2023 – December 2023
+
+    Assisted in developing and implementing the Park Board’s Canada Goose Management Plan. Conducted field surveys to monitor population, habitat use, and behavior. 2 Leveraged data collected in ArcGIS FieldMaps to inform management strategies. Collaborated with local stakeholders to ensure effective wildlife management.
+
+# Reports
+
+-   (Eventually...) **GIS-Based Site Suitability Analysis for Solar Farms in British Columbia, Canada**
+
+# Awards & Honors
+
+-   **Dean’s List, The University of British Columbia**
+
+    A designation that recognizes exceptional academic achievements. Awarded to students that receive an average of 85% or higher on at least 27 credits per session.
+
+    Achieved September 2018 – May 2023
+
+-   **Deputy Vice-Chancellor Scholarship, The University of British Columbia**
+
+    Awarded to the top 10% of returning domestic students based on academic achievement in the previous year.
+
+    Achieved September 2018 – May 2023
 
 # Institutional Service
 
-§  **The Hive** *Bouldering Instructor*
+-   **The Hive** *Bouldering Instructor*
 
-August 2022 – December 2023
+    August 2022 – December 2023
 
-Taught beginner through advanced bouldering techniques to diverse groups, fostering skill development, safety awareness, and a supportive environment. Designed tailored training programs, accommodating various skill levels and learning styles.
+    Taught beginner through advanced bouldering techniques to diverse groups, fostering skill development, safety awareness, and a supportive environment. Designed tailored training programs, accommodating various skill levels and learning styles.
 
 # Professional Certifications
 
-§  OFA1 – First Aid & CPR/AED Level
+-   OFA1 – First Aid & CPR/AED Level
 
-§  AST1 – Avalanche Skills Training & Safety Theory
+-   AST1 – Avalanche Skills Training & Safety Theory
 
-§  ENV-050 – Approved Work Practices for Managing Riparian Vegetation
+-   ENV-050 – Approved Work Practices for Managing Riparian Vegetation
 
-§  BCH ENV-041 – Wildlife Awareness
+-   BCH ENV-041 – Wildlife Awareness
 
-§  BCH ENV-028 – Heritage and Archaeology Awareness
+-   BCH ENV-028 – Heritage and Archaeology Awareness
 
-§  BCH ENV-148 – Invasive Species Awareness
+-   BCH ENV-148 – Invasive Species Awareness

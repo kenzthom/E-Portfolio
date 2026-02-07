@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Analysis of fire burn severity and post-fire vegetation recovery with Landsat – Mackenzie Thomson</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-941d7e14017e1a43777b60853515243b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Mackenzie Thomson</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resume.html"> 
+<span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../content.html"> 
+<span class="menu-text">Content &amp; Deliverables</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../contact.html"> 
+<span class="menu-text">Contact Info</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analysis of fire burn severity and post-fire vegetation recovery with Landsat</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This project quantified the burn severity of the Prouton Lakes fire and examined the recovery and re-establishment of vegetation in the years following the fire using Landsat 8 OLI imagery.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View step 1: Basic data exploration, cleaning, and filtering
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>#read in data
+raw_fire &lt;- sf::st_read(".../H_FIRE_PLY_polygon.shp")
+
+#drop geom
+fire &lt;- st_drop_geometry(raw_fire)
+
+#(1)what was the number of fires and total land area burned (in hectares) in 2017?
+#filter year
+fire_summary_2017 &lt;- fire %&gt;%
+  filter(FIRE_YEAR == 2017) %&gt;%
+  summarise(number_of_fires = n(),total_area_burned_ha = sum(SIZE_HA, na.rm = TRUE))
+fire_summary_2017
+
+#(2)what is the ID and burned area (in hectares) of the three largest fires recorded in 2017
+fire_largest &lt;- fire %&gt;%
+  slice_max(SIZE_HA, n = 3) %&gt;%
+  summarise(SIZE_HA, FIRE_NO)
+fire_largest
+  
+#(3)how much land area was burned by the Prouton Lakes fire (ID C30870)  
+fire_prouton &lt;- fire %&gt;%
+  filter(FIRE_NO == "C30870") %&gt;%
+  summarise(SIZE_HA, FIRE_NO)
+fire_prouton
+
+#(4)create a barplot showing the total area burned per year in BC. Each bar should be colored by fire cause
+total_burn &lt;- fire %&gt;%
+  group_by(FIRE_YEAR) %&gt;%
+  summarise(total_burn = sum(SIZE_HA, na.rm = TRUE), FIRE_CAUSE)
+total_burn
+
+#plot it
+ggplot(total_burn, aes(x = FIRE_YEAR, y = total_burn, fill = FIRE_CAUSE)) +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) +
+  scale_y_continuous(labels = label_comma()) + 
+  labs(
+  title = "Total Forest Fire Burn Area Per Year in BC",
+  y = "Burn Area (ha)",
+  x = "Year",
+  fill = "Fire Cause")</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View step 2: Pre-processing Level-2 products and calculating vegetation indices
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>#(1)for each L2 product, put each surface reflectance band (Band 1 to Band 7) in the same raster object
+
+#read in directory as list
+dirlist &lt;- list.dirs("data/Landsat 8 OLI_TIRS C2 L2", full.names = TRUE, recursive = FALSE)
+dirlist[1:5]
+
+#create list to store all tifs
+bands &lt;- list() 
+#for loop to read in all files from directory matching pattern
+for (i in seq_along(dirlist)) {
+  tif_files &lt;- list.files(
+    dirlist[i],
+    pattern = "SR_B[1-7]\\.TIF$",
+    full.names = TRUE,
+    recursive = TRUE
+  )
+  #order them 1-7
+  tif_files &lt;- tif_files[order(tif_files)]
+  #store as rast object
+  bands[[i]] &lt;- rast(tif_files)
+}
+bands[1:5] #list of SR rasters with bands 1-7 grouped
+
+#(2)mask pixels that do not have the value 21824 (clear conditions) in the QA_PIXEL layers
+
+#load in QA_PIXELS
+qa_files &lt;- list()
+for (i in seq_along(dirlist)) {
+  qa_list &lt;- list.files(
+    dirlist[i], 
+    pattern = "QA_PIXEL\\.TIF$", 
+    full.names = TRUE, 
+    recursive = TRUE
+  )
+  #store as rast object
+  qa_files[[i]] &lt;- rast(qa_list)
+}
+qa_files[1:5] #list of QA rasters
+
+#create function to mask band raster using QA raster
+mask_fun &lt;- function(band_rast, qa_rast) {
+  good &lt;- qa_rast == 21824 
+  masked &lt;- terra::mask(band_rast, good, maskvalues = FALSE) #like inverse
+  return(masked)
+}
+
+#use function in mapply to iterate over list
+masked_bands &lt;- mapply(
+  mask_fun,
+  band_rast = bands,
+  qa_rast = qa_files,
+  SIMPLIFY = FALSE
+)
+masked_bands
+
+#(3)crop the multi-layer raster to the Prouton Lakes fire extent
+#isolate Prouton Lakes
+prouton_extent &lt;- raw_fire %&gt;%
+  filter(FIRE_NO == "C30870") 
+#prouton_extent &lt;- st_geometry(prouton_extent)
+plot(prouton_extent)
+
+#transform polygon to raster CRS
+prouton_extent_proj &lt;- st_transform(prouton_extent, crs(masked_bands[[1]]))
+
+#save cropped rasters to SR folder
+cropped_output &lt;- file.path("output", "LC08_L2SP_048023_SR")
+
+#get basenames
+product_ids &lt;- basename(dirlist)
+
+for (i in seq_along(masked_bands)) {
+  in_rasts &lt;- masked_bands[[i]]
+  cropped &lt;- crop(in_rasts, prouton_extent_proj)
+  names(cropped) &lt;- names(in_rasts)
+  #save to correct subfolder
+  cropped_file &lt;- file.path(cropped_output, paste0(product_ids[i], "_SR.tif"))
+  writeRaster(cropped, filename = cropped_file, overwrite = TRUE)
+}
+
+#list all cropped rasters
+cropped_files &lt;- list.files(cropped_output, pattern = "\\.tif$", full.names = TRUE)
+cropped_files
+
+#read each raster into a list
+masked_bands_prouton &lt;- lapply(cropped_files, function(f) terra::rast(f))
+
+#check first raster to make sure it worked
+nlyr(masked_bands_prouton[[1]])
+names(masked_bands_prouton[[1]])
+plot(masked_bands_prouton[[1]])
+
+#(4)calculate NDVI for each cropped and masked raster
+ndvi_output &lt;- file.path("output", "LC08_L2SP_048023_NDVI")
+ndvi_list &lt;- vector("list", length(masked_bands_prouton))
+
+#create function
+ndvi_calc &lt;- function(rast, product) {
+  red &lt;- rast[[4]]
+  nir &lt;- rast[[5]]
+  ndvi &lt;- (nir - red) / (nir + red)
+  ndvi_file &lt;- file.path(ndvi_output, paste0(product, "_NDVI.tif"))
+  writeRaster(ndvi, filename = ndvi_file, overwrite = TRUE)
+  
+  return(ndvi)
+}
+
+#loop through all cropped+masked rasters
+for (i in seq_along(masked_bands_prouton)) {
+  rast &lt;- masked_bands_prouton[[i]]
+  product_id &lt;- product_ids[i]
+  ndvi_list[[i]] &lt;- ndvi_calc(rast, product_id)
+}
+
+#(5)calculate NBR for each cropped and masked raster
+nbr_output &lt;- file.path("output", "LC08_L2SP_048023_NBR")
+nbr_list &lt;- vector("list", length(masked_bands_prouton))
+
+#create function
+nbr_calc &lt;- function(rast, product) {
+  nir &lt;- rast[[5]]
+  swir2 &lt;- rast[[7]]
+  nbr &lt;- (nir - swir2) / (nir + swir2)
+  nbr_file &lt;- file.path(nbr_output, paste0(product, "_NBR.tif"))
+  writeRaster(nbr, filename = nbr_file, overwrite = TRUE)
+  
+  return(nbr)
+}
+
+#loop through all cropped+masked rasters
+for (i in seq_along(masked_bands_prouton)) {
+  rast &lt;- masked_bands_prouton[[i]]
+  product_id &lt;- product_ids[i]
+  nbr_list[[i]] &lt;- nbr_calc(rast, product_id)
+}
+
+#(6)plot TCC of area before and after fire
+sr_files &lt;- list.files("output/LC08_L2SP_048023_SR", pattern = "_SR.tif$", full.names = TRUE)
+
+#find july 7 2015
+before_fire &lt;- sr_files[grepl("20150707", sr_files)]
+
+#find july 15 2018
+after_fire &lt;- sr_files[grepl("20180715", sr_files)]
+
+#load as spatrast
+before_fire_rast &lt;- rast(before_fire)
+after_fire_rast &lt;- rast(after_fire)
+
+#plot side by side
+par(mfrow = c(1,2))
+terra::plotRGB(before_fire_rast, r=4, g=3, b=2, 
+               stretch = "lin",
+               main = "Before Fire")
+terra::plotRGB(after_fire_rast, r=4, g=3, b=2,
+               stretch = "lin",
+               main = "Before Fire")</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View step 3: Create yearly composites of NDVI and NBR
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>#(1)get only NDVI rasts in July and August
+ndvi_files &lt;- list.files("output/LC08_L2SP_048023_NDVI", pattern="_NDVI.tif$", full.names = TRUE)
+
+#extract basename
+ndvi_names &lt;- basename(ndvi_files)
+
+#extract date section of file name
+date_extract_ndvi &lt;- str_extract(ndvi_names, "\\d{8}") #first chunk of 8 numbers 
+ndvi_dates &lt;- as.Date(date_extract_ndvi, format="%Y%m%d")
+
+#filter by July and August
+july_aug_idx_ndvi &lt;- format(ndvi_dates, "%m") %in% c("07", "08")
+july_aug_ndvi &lt;- ndvi_files[july_aug_idx_ndvi]
+
+#get corresponding years for July/August images
+ndvi_years &lt;- format(ndvi_dates[july_aug_idx_ndvi], "%Y") #all years (includes repeats)
+unique_years_ndvi &lt;- sort(unique(ndvi_years))  #only unique years (no repeats)
+unique_years_ndvi
+
+#check
+july_aug_ndvi
+ndvi_years
+unique_years_ndvi #9 different years
+
+#(2)create yearly composites of average NDVI
+ndvi_per_year &lt;- lapply(unique_years_ndvi, function(y) {
+  files_ndvi &lt;- july_aug_ndvi[ndvi_years == y]
+  year_stack_ndvi &lt;- rast(files_ndvi)
+  app(year_stack_ndvi, fun = mean, na.rm = TRUE)
+})
+ndvi_per_year
+
+#same for NBR
+nbr_files &lt;- list.files("output/LC08_L2SP_048023_NBR", pattern="_NBR.tif$", full.names = TRUE)
+
+#extract basename
+nbr_names &lt;- basename(nbr_files)
+
+#extract date section
+date_extract_nbr &lt;- str_extract(nbr_names, "\\d{8}")
+nbr_dates &lt;- as.Date(date_extract_nbr, format="%Y%m%d")
+
+#filter by July and August
+july_aug_idx_nbr &lt;- format(nbr_dates, "%m") %in% c("07", "08")
+july_aug_nbr &lt;- nbr_files[july_aug_idx_nbr]
+
+#get corresponding years for July/August images
+nbr_years &lt;- format(nbr_dates[july_aug_idx_nbr], "%Y")
+unique_years_nbr &lt;- sort(unique(nbr_years))
+
+#check
+july_aug_nbr
+nbr_years
+unique_years_nbr
+
+#assign years as the names
+#names(nbr_per_year) &lt;- unique_years_nbr
+
+#(3)create yearly composites of average NBR
+nbr_per_year &lt;- lapply(unique_years_nbr, function(y) {
+  files_nbr &lt;- july_aug_nbr[nbr_years == y]
+  year_stack_nbr &lt;- rast(files_nbr)
+  app(year_stack_nbr, fun = mean, na.rm = TRUE)
+})
+nbr_per_year
+
+#(4)calculate average NDVI of all pixels overlaid by PL fire, for each year in the time series
+#assign years as the rast names
+names(ndvi_per_year) &lt;- unique_years_ndvi 
+
+prouton_vect &lt;- vect(prouton_extent_proj)
+ndvi_fire_avg &lt;- lapply(ndvi_per_year, function(r) {
+  masked &lt;- mask(r, prouton_vect)       
+  mean(values(masked), na.rm = TRUE)   
+})
+
+# convert to a data.frame to view
+ndvi_fire_avg_df &lt;- data.frame(
+  year = names(ndvi_per_year),
+  avg_ndvi = unlist(ndvi_fire_avg)
+)
+ndvi_fire_avg_df
+
+#NaN for 2016? check to see if any NDVI pixels within PL extent 
+r2016 &lt;- ndvi_per_year[["2016"]]
+vals_raw &lt;- terra::extract(r2016, prouton_vect)
+summary(vals_raw)
+
+#plot average NDVI across the PL fire area through time
+ggplot(ndvi_fire_avg_df, (aes( x = year, y =avg_ndvi, group = 1))) +
+  geom_line() +
+  geom_point() 
+
+#plot visually
+ndvi_stack &lt;- rast(ndvi_per_year)
+plot(ndvi_stack)
+ </code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View step 4: Classify burn severity
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>#(1)calculate average NBR of all pixels overlaid by PL fire, for each year in the time series
+#prouton_vect &lt;- vect(prouton_extent_proj)
+#nbr_fire_avg &lt;- lapply(nbr_per_year, function(r) {
+  #masked &lt;- mask(r, prouton_vect)       #mask to fire area
+  #mean(values(masked), na.rm = TRUE)    #calculate average NDVI in PL fire area
+#})
+
+# convert to a data.frame to view
+#nbr_fire_avg_df &lt;- data.frame(
+  #year = names(nbr_per_year),
+  #avg_nbr = unlist(nbr_fire_avg)
+#)
+#nbr_fire_avg_df
+
+#(2)seperate pre-fire and post-fire 
+#remember nbr_per_year = list of nbr mean per year within PL area
+pre_fire_nbr &lt;- nbr_per_year[[3]]
+post_fire_nbr &lt;- nbr_per_year[[6]]
+  
+#(3)calculate dNBR
+dnbr &lt;- pre_fire_nbr - post_fire_nbr
+plot(dnbr)
+
+#(4)reclassify using table provided 
+m &lt;- c(-0.2, 0.15, 0,
+       0.15, 0.25, 1,
+       0.25, 0.3, 2,
+       0.3, 1, 3)
+dnbr_mat &lt;- matrix(m, ncol = 3, byrow = TRUE)
+burn_severity &lt;- terra::classify(x = dnbr, rcl = dnbr_mat, include.lowest = TRUE, right = TRUE)
+
+#make categorical
+burn_severity &lt;- as.factor(burn_severity)
+
+#add levels
+levels(burn_severity) &lt;- data.frame(id = c(0, 1, 2, 3), label = c("Unburned", "Low Severity", "Medium Severity", "High Severity"))
+
+#(5)plot dnbr rast with PL fire extent on top
+plot(burn_severity, col = c("darkgreen","yellow","orange","red"), main="Burn Severity")
+
+#convert SpatVecter to sf
+prouton_sf &lt;- st_as_sf(prouton_extent_proj)
+
+#extract geom
+prouton_geom &lt;- st_geometry(prouton_sf)
+
+#overlay
+plot(prouton_geom, add = TRUE, border = "black")</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View step 5: Quantity post-fire vegetation recovery
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre><code>#(1)dnbr raster to polygons
+burn_polys &lt;- terra::as.polygons(burn_severity, dissolve = TRUE)
+#check it out #prettyyy 
+bp_sf &lt;- st_as_sf(burn_polys)
+plot(bp_sf)
+
+#(2)retrieve categorical labels assigned 
+burn_polys$burn_class &lt;- levels(burn_severity)[[1]]$label
+bp_df &lt;- as.data.frame(burn_polys)
+bp_df
+
+#extract years from grand list 
+ndvi_rasters &lt;- ndvi_per_year[c("2018", "2019", "2020", "2021")]
+
+#make list to store extract
+ndvi_extract_list &lt;- list()
+
+#loop through to assign burn class to each poly
+for (bs in 1:nrow(burn_polys)) {
+  poly &lt;- burn_polys[bs, ]       
+  burn_class_val &lt;- poly$burn_class[1]     
+  
+  #loop through to extract ndvi values per bs class
+  for (i in seq_along(ndvi_rasters)) {
+    
+    rast_obj &lt;- ndvi_rasters[[i]]
+    yr &lt;- names(ndvi_rasters)[i]
+    ex &lt;- terra::extract(rast_obj, poly, method = "simple", bind = TRUE)
+    #add burn class to extraction and assign burn class values to extracted
+    ex$burn_class &lt;- burn_class_val
+    #add and assign year
+    ex$year &lt;- yr
+    #store in list
+    ndvi_extract_list &lt;- c(ndvi_extract_list, list(ex))
+  }
+}
+#(4)make into dataframe
+ndvi_per_bs &lt;- bind_rows(ndvi_extract_list)
+
+#change mean to ndvi (name stored is spatrast list)
+ndvi_per_bs &lt;- ndvi_per_bs %&gt;%
+  rename(ndvi = mean)
+
+#(5)plot ndvi composite of each year 
+ndvi_years &lt;- list(
+  "2018" = ndvi_per_year[["2018"]],
+  "2019" = ndvi_per_year[["2019"]],
+  "2020" = ndvi_per_year[["2020"]],
+  "2021" = ndvi_per_year[["2021"]]
+)
+
+#set plot layout
+par(mfrow = c(2, 2)) 
+#loop over each year to plot
+for (yr in names(ndvi_years)) {
+  plot(
+  ndvi_years[[yr]],
+  main = paste("NDVI", yr),   
+  range = c(0, 0.5),           
+  axes = TRUE
+  )
+}
+ 
+#(6)boxplot
+#make ordered so burn class plots unburned to high burn
+ndvi_per_bs$burn_class &lt;- factor(ndvi_per_bs$burn_class, levels = c("Unburned", "Low Severity", "Medium Severity", "High Severity"), ordered = TRUE)
+
+ggplot(ndvi_per_bs, aes(x=year, y=ndvi, fill=burn_class)) + 
+  geom_boxplot(position = position_dodge()) +
+  labs(fill = "Burn Severity") +
+  scale_fill_manual(values = c("green", "yellow", "orange", "red"))</code></pre>
+</div>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

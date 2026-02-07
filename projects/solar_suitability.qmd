@@ -1,0 +1,102 @@
+---
+title: "Capstone Project: GIS-Based Site Suitability Analysis for Solar Farms in British Columbia, Canada"
+image: "Suitability_cover.png" 
+---
+
+This project evaluates potential locations for utility-scale (1MW+) solar farm development using a GIS-based multi-criteria decision analysis (MCDA). The study integrates environmental, technical, and economic considerations to identify areas most suitable for solar farm development. Data incorperated into the mask layer includes:
+
+-   *Agriculture Land Reserve (ALR)*
+
+-   *Water bodies*
+
+-   *Wetlands (treed and non-treed)*
+
+-   *Permanent snow and ice*
+
+-   *Dense forests – canopy cover \> 40%*
+
+-   *Artificial/build environments*
+
+-   *Protected and conserved areas*
+
+-   *Buffers around roads (100m) and major cities (1000m)*
+
+Data incorporated as suitability criterion in the Analytically Hierarchical Process (AHP):
+
+-   *Global Horizontal Irradiance (GHI)*
+
+-   *Proximity to roads*
+
+-   *Proximity to major cities*
+
+-   *Proximity to existing energy infrastructure (substations)*
+
+-   *Slope*
+
+-   *Aspect*
+
+Using spatial analysis and weighted overlay techniques, I produced a suitability model that highlights optimal locations while minimizing environmental and land-use conflicts. All processing was completed in R at a spatial resolution of 30m in the BC Environmental Albers CRS (EPSG:3005). Upsampling and re-projection has been undergone for web-publishing.
+
+The project demonstrates the application of geospatial tools to renewable energy planning and supports data-driven decision-making for sustainable infrastructure development.
+
+## Suitability Map
+
+Suitability is ranked on a 1-5 scale, with 1 being least suitable and 5 being very suitable.
+
+The mask layer represents unsuitable land where solar farm installations are not feasible or permitted; it is comprised of data layers mentioned about.
+
+```{r leaflet, echo = FALSE, warning = FALSE, messgae = FALSE}
+
+library(terra)
+library(leaflet)
+
+#Load web ready data
+suitability_small <- rast("C:/Users/kenzthom.stu/OneDrive - UBC/GIT/E-Portfolio/myData/suitability_web.tif")
+mask_small <- rast("C:/Users/kenzthom.stu/OneDrive - UBC/GIT/E-Portfolio/myData/mask_web.tif")
+
+#Define Palette
+pal <- colorNumeric(
+  palette = "RdYlGn", # Built-in Red-Yellow-Green
+  domain = values(suitability_small),
+  na.color = "transparent")
+mask_pal <- colorFactor(palette = "black", domain = values(mask_small), na.color = "transparent")
+
+#Build the Map
+l <- leaflet(width = "100%", height = 600) %>%
+  addProviderTiles("Esri.WorldImagery", group = "Satellite") %>%
+  addProviderTiles("OpenStreetMap", group = "Street Map") %>% # Added a second base map option
+  
+  #Add Suitability Layer
+  addRasterImage(
+    suitability_small,
+    colors = pal,
+    group = "Suitability" # Labeling this group
+  ) %>%
+  
+  # Add Mask Layer
+  addRasterImage(
+    mask_small,
+    colors = mask_pal,
+    group = "Mask Layer" # Labeling this group
+  ) %>%
+  
+  addLegend(
+    pal = pal, 
+    values = values(suitability_small),
+    title = "Suitability Score",
+    position = "bottomright",
+    group = "Suitability", # This links the legend to the Suitability layer toggle
+    labFormat = labelFormat(prefix = "")
+  ) %>%
+  
+  # Add the Toggle Control
+  addLayersControl(
+    baseGroups = c("Satellite", "Street Map"),
+    overlayGroups = c("Suitability", "Mask Layer"),
+    options = layersControlOptions(collapsed = FALSE) # Keeps the menu open by default
+  ) %>%
+  
+  addScaleBar(position = "bottomleft")
+
+l
+```

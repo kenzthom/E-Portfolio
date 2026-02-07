@@ -1,0 +1,470 @@
+---
+title: "Analysis of fire burn severity and post-fire vegetation recovery with Landsat"
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+image: "fire_cover.png"
+---
+
+This project quantified the burn severity of the Prouton Lakes fire and examined the recovery and re-establishment of vegetation in the years following the fire using Landsat 8 OLI imagery.
+
+::: {.callout-note collapse="true"}
+
+## View step 1: Basic data exploration, cleaning, and filtering 
+
+```         
+#read in data
+raw_fire <- sf::st_read(".../H_FIRE_PLY_polygon.shp")
+
+#drop geom
+fire <- st_drop_geometry(raw_fire)
+
+#(1)what was the number of fires and total land area burned (in hectares) in 2017?
+#filter year
+fire_summary_2017 <- fire %>%
+  filter(FIRE_YEAR == 2017) %>%
+  summarise(number_of_fires = n(),total_area_burned_ha = sum(SIZE_HA, na.rm = TRUE))
+fire_summary_2017
+
+#(2)what is the ID and burned area (in hectares) of the three largest fires recorded in 2017
+fire_largest <- fire %>%
+  slice_max(SIZE_HA, n = 3) %>%
+  summarise(SIZE_HA, FIRE_NO)
+fire_largest
+  
+#(3)how much land area was burned by the Prouton Lakes fire (ID C30870)  
+fire_prouton <- fire %>%
+  filter(FIRE_NO == "C30870") %>%
+  summarise(SIZE_HA, FIRE_NO)
+fire_prouton
+
+#(4)create a barplot showing the total area burned per year in BC. Each bar should be colored by fire cause
+total_burn <- fire %>%
+  group_by(FIRE_YEAR) %>%
+  summarise(total_burn = sum(SIZE_HA, na.rm = TRUE), FIRE_CAUSE)
+total_burn
+
+#plot it
+ggplot(total_burn, aes(x = FIRE_YEAR, y = total_burn, fill = FIRE_CAUSE)) +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) +
+  scale_y_continuous(labels = label_comma()) + 
+  labs(
+  title = "Total Forest Fire Burn Area Per Year in BC",
+  y = "Burn Area (ha)",
+  x = "Year",
+  fill = "Fire Cause")
+```
+
+:::
+
+::: {.callout-note collapse="true"}
+
+## View step 2: Pre-processing Level-2 products and calculating vegetation indices
+
+```         
+#(1)for each L2 product, put each surface reflectance band (Band 1 to Band 7) in the same raster object
+
+#read in directory as list
+dirlist <- list.dirs("data/Landsat 8 OLI_TIRS C2 L2", full.names = TRUE, recursive = FALSE)
+dirlist[1:5]
+
+#create list to store all tifs
+bands <- list() 
+#for loop to read in all files from directory matching pattern
+for (i in seq_along(dirlist)) {
+  tif_files <- list.files(
+    dirlist[i],
+    pattern = "SR_B[1-7]\\.TIF$",
+    full.names = TRUE,
+    recursive = TRUE
+  )
+  #order them 1-7
+  tif_files <- tif_files[order(tif_files)]
+  #store as rast object
+  bands[[i]] <- rast(tif_files)
+}
+bands[1:5] #list of SR rasters with bands 1-7 grouped
+
+#(2)mask pixels that do not have the value 21824 (clear conditions) in the QA_PIXEL layers
+
+#load in QA_PIXELS
+qa_files <- list()
+for (i in seq_along(dirlist)) {
+  qa_list <- list.files(
+    dirlist[i], 
+    pattern = "QA_PIXEL\\.TIF$", 
+    full.names = TRUE, 
+    recursive = TRUE
+  )
+  #store as rast object
+  qa_files[[i]] <- rast(qa_list)
+}
+qa_files[1:5] #list of QA rasters
+
+#create function to mask band raster using QA raster
+mask_fun <- function(band_rast, qa_rast) {
+  good <- qa_rast == 21824 
+  masked <- terra::mask(band_rast, good, maskvalues = FALSE) #like inverse
+  return(masked)
+}
+
+#use function in mapply to iterate over list
+masked_bands <- mapply(
+  mask_fun,
+  band_rast = bands,
+  qa_rast = qa_files,
+  SIMPLIFY = FALSE
+)
+masked_bands
+
+#(3)crop the multi-layer raster to the Prouton Lakes fire extent
+#isolate Prouton Lakes
+prouton_extent <- raw_fire %>%
+  filter(FIRE_NO == "C30870") 
+#prouton_extent <- st_geometry(prouton_extent)
+plot(prouton_extent)
+
+#transform polygon to raster CRS
+prouton_extent_proj <- st_transform(prouton_extent, crs(masked_bands[[1]]))
+
+#save cropped rasters to SR folder
+cropped_output <- file.path("output", "LC08_L2SP_048023_SR")
+
+#get basenames
+product_ids <- basename(dirlist)
+
+for (i in seq_along(masked_bands)) {
+  in_rasts <- masked_bands[[i]]
+  cropped <- crop(in_rasts, prouton_extent_proj)
+  names(cropped) <- names(in_rasts)
+  #save to correct subfolder
+  cropped_file <- file.path(cropped_output, paste0(product_ids[i], "_SR.tif"))
+  writeRaster(cropped, filename = cropped_file, overwrite = TRUE)
+}
+
+#list all cropped rasters
+cropped_files <- list.files(cropped_output, pattern = "\\.tif$", full.names = TRUE)
+cropped_files
+
+#read each raster into a list
+masked_bands_prouton <- lapply(cropped_files, function(f) terra::rast(f))
+
+#check first raster to make sure it worked
+nlyr(masked_bands_prouton[[1]])
+names(masked_bands_prouton[[1]])
+plot(masked_bands_prouton[[1]])
+
+#(4)calculate NDVI for each cropped and masked raster
+ndvi_output <- file.path("output", "LC08_L2SP_048023_NDVI")
+ndvi_list <- vector("list", length(masked_bands_prouton))
+
+#create function
+ndvi_calc <- function(rast, product) {
+  red <- rast[[4]]
+  nir <- rast[[5]]
+  ndvi <- (nir - red) / (nir + red)
+  ndvi_file <- file.path(ndvi_output, paste0(product, "_NDVI.tif"))
+  writeRaster(ndvi, filename = ndvi_file, overwrite = TRUE)
+  
+  return(ndvi)
+}
+
+#loop through all cropped+masked rasters
+for (i in seq_along(masked_bands_prouton)) {
+  rast <- masked_bands_prouton[[i]]
+  product_id <- product_ids[i]
+  ndvi_list[[i]] <- ndvi_calc(rast, product_id)
+}
+
+#(5)calculate NBR for each cropped and masked raster
+nbr_output <- file.path("output", "LC08_L2SP_048023_NBR")
+nbr_list <- vector("list", length(masked_bands_prouton))
+
+#create function
+nbr_calc <- function(rast, product) {
+  nir <- rast[[5]]
+  swir2 <- rast[[7]]
+  nbr <- (nir - swir2) / (nir + swir2)
+  nbr_file <- file.path(nbr_output, paste0(product, "_NBR.tif"))
+  writeRaster(nbr, filename = nbr_file, overwrite = TRUE)
+  
+  return(nbr)
+}
+
+#loop through all cropped+masked rasters
+for (i in seq_along(masked_bands_prouton)) {
+  rast <- masked_bands_prouton[[i]]
+  product_id <- product_ids[i]
+  nbr_list[[i]] <- nbr_calc(rast, product_id)
+}
+
+#(6)plot TCC of area before and after fire
+sr_files <- list.files("output/LC08_L2SP_048023_SR", pattern = "_SR.tif$", full.names = TRUE)
+
+#find july 7 2015
+before_fire <- sr_files[grepl("20150707", sr_files)]
+
+#find july 15 2018
+after_fire <- sr_files[grepl("20180715", sr_files)]
+
+#load as spatrast
+before_fire_rast <- rast(before_fire)
+after_fire_rast <- rast(after_fire)
+
+#plot side by side
+par(mfrow = c(1,2))
+terra::plotRGB(before_fire_rast, r=4, g=3, b=2, 
+               stretch = "lin",
+               main = "Before Fire")
+terra::plotRGB(after_fire_rast, r=4, g=3, b=2,
+               stretch = "lin",
+               main = "Before Fire")
+```
+
+:::
+
+::: {.callout-note collapse="true"}
+
+## View step 3: Create yearly composites of NDVI and NBR
+
+```         
+#(1)get only NDVI rasts in July and August
+ndvi_files <- list.files("output/LC08_L2SP_048023_NDVI", pattern="_NDVI.tif$", full.names = TRUE)
+
+#extract basename
+ndvi_names <- basename(ndvi_files)
+
+#extract date section of file name
+date_extract_ndvi <- str_extract(ndvi_names, "\\d{8}") #first chunk of 8 numbers 
+ndvi_dates <- as.Date(date_extract_ndvi, format="%Y%m%d")
+
+#filter by July and August
+july_aug_idx_ndvi <- format(ndvi_dates, "%m") %in% c("07", "08")
+july_aug_ndvi <- ndvi_files[july_aug_idx_ndvi]
+
+#get corresponding years for July/August images
+ndvi_years <- format(ndvi_dates[july_aug_idx_ndvi], "%Y") #all years (includes repeats)
+unique_years_ndvi <- sort(unique(ndvi_years))  #only unique years (no repeats)
+unique_years_ndvi
+
+#check
+july_aug_ndvi
+ndvi_years
+unique_years_ndvi #9 different years
+
+#(2)create yearly composites of average NDVI
+ndvi_per_year <- lapply(unique_years_ndvi, function(y) {
+  files_ndvi <- july_aug_ndvi[ndvi_years == y]
+  year_stack_ndvi <- rast(files_ndvi)
+  app(year_stack_ndvi, fun = mean, na.rm = TRUE)
+})
+ndvi_per_year
+
+#same for NBR
+nbr_files <- list.files("output/LC08_L2SP_048023_NBR", pattern="_NBR.tif$", full.names = TRUE)
+
+#extract basename
+nbr_names <- basename(nbr_files)
+
+#extract date section
+date_extract_nbr <- str_extract(nbr_names, "\\d{8}")
+nbr_dates <- as.Date(date_extract_nbr, format="%Y%m%d")
+
+#filter by July and August
+july_aug_idx_nbr <- format(nbr_dates, "%m") %in% c("07", "08")
+july_aug_nbr <- nbr_files[july_aug_idx_nbr]
+
+#get corresponding years for July/August images
+nbr_years <- format(nbr_dates[july_aug_idx_nbr], "%Y")
+unique_years_nbr <- sort(unique(nbr_years))
+
+#check
+july_aug_nbr
+nbr_years
+unique_years_nbr
+
+#assign years as the names
+#names(nbr_per_year) <- unique_years_nbr
+
+#(3)create yearly composites of average NBR
+nbr_per_year <- lapply(unique_years_nbr, function(y) {
+  files_nbr <- july_aug_nbr[nbr_years == y]
+  year_stack_nbr <- rast(files_nbr)
+  app(year_stack_nbr, fun = mean, na.rm = TRUE)
+})
+nbr_per_year
+
+#(4)calculate average NDVI of all pixels overlaid by PL fire, for each year in the time series
+#assign years as the rast names
+names(ndvi_per_year) <- unique_years_ndvi 
+
+prouton_vect <- vect(prouton_extent_proj)
+ndvi_fire_avg <- lapply(ndvi_per_year, function(r) {
+  masked <- mask(r, prouton_vect)       
+  mean(values(masked), na.rm = TRUE)   
+})
+
+# convert to a data.frame to view
+ndvi_fire_avg_df <- data.frame(
+  year = names(ndvi_per_year),
+  avg_ndvi = unlist(ndvi_fire_avg)
+)
+ndvi_fire_avg_df
+
+#NaN for 2016? check to see if any NDVI pixels within PL extent 
+r2016 <- ndvi_per_year[["2016"]]
+vals_raw <- terra::extract(r2016, prouton_vect)
+summary(vals_raw)
+
+#plot average NDVI across the PL fire area through time
+ggplot(ndvi_fire_avg_df, (aes( x = year, y =avg_ndvi, group = 1))) +
+  geom_line() +
+  geom_point() 
+
+#plot visually
+ndvi_stack <- rast(ndvi_per_year)
+plot(ndvi_stack)
+ 
+```
+
+:::
+
+::: {.callout-note collapse="true"}
+
+## View step 4: Classify burn severity 
+
+```         
+#(1)calculate average NBR of all pixels overlaid by PL fire, for each year in the time series
+#prouton_vect <- vect(prouton_extent_proj)
+#nbr_fire_avg <- lapply(nbr_per_year, function(r) {
+  #masked <- mask(r, prouton_vect)       #mask to fire area
+  #mean(values(masked), na.rm = TRUE)    #calculate average NDVI in PL fire area
+#})
+
+# convert to a data.frame to view
+#nbr_fire_avg_df <- data.frame(
+  #year = names(nbr_per_year),
+  #avg_nbr = unlist(nbr_fire_avg)
+#)
+#nbr_fire_avg_df
+
+#(2)seperate pre-fire and post-fire 
+#remember nbr_per_year = list of nbr mean per year within PL area
+pre_fire_nbr <- nbr_per_year[[3]]
+post_fire_nbr <- nbr_per_year[[6]]
+  
+#(3)calculate dNBR
+dnbr <- pre_fire_nbr - post_fire_nbr
+plot(dnbr)
+
+#(4)reclassify using table provided 
+m <- c(-0.2, 0.15, 0,
+       0.15, 0.25, 1,
+       0.25, 0.3, 2,
+       0.3, 1, 3)
+dnbr_mat <- matrix(m, ncol = 3, byrow = TRUE)
+burn_severity <- terra::classify(x = dnbr, rcl = dnbr_mat, include.lowest = TRUE, right = TRUE)
+
+#make categorical
+burn_severity <- as.factor(burn_severity)
+
+#add levels
+levels(burn_severity) <- data.frame(id = c(0, 1, 2, 3), label = c("Unburned", "Low Severity", "Medium Severity", "High Severity"))
+
+#(5)plot dnbr rast with PL fire extent on top
+plot(burn_severity, col = c("darkgreen","yellow","orange","red"), main="Burn Severity")
+
+#convert SpatVecter to sf
+prouton_sf <- st_as_sf(prouton_extent_proj)
+
+#extract geom
+prouton_geom <- st_geometry(prouton_sf)
+
+#overlay
+plot(prouton_geom, add = TRUE, border = "black")
+```
+
+:::
+
+::: {.callout-note collapse="true"}
+
+## View step 5: Quantity post-fire vegetation recovery 
+
+```         
+#(1)dnbr raster to polygons
+burn_polys <- terra::as.polygons(burn_severity, dissolve = TRUE)
+#check it out #prettyyy 
+bp_sf <- st_as_sf(burn_polys)
+plot(bp_sf)
+
+#(2)retrieve categorical labels assigned 
+burn_polys$burn_class <- levels(burn_severity)[[1]]$label
+bp_df <- as.data.frame(burn_polys)
+bp_df
+
+#extract years from grand list 
+ndvi_rasters <- ndvi_per_year[c("2018", "2019", "2020", "2021")]
+
+#make list to store extract
+ndvi_extract_list <- list()
+
+#loop through to assign burn class to each poly
+for (bs in 1:nrow(burn_polys)) {
+  poly <- burn_polys[bs, ]       
+  burn_class_val <- poly$burn_class[1]     
+  
+  #loop through to extract ndvi values per bs class
+  for (i in seq_along(ndvi_rasters)) {
+    
+    rast_obj <- ndvi_rasters[[i]]
+    yr <- names(ndvi_rasters)[i]
+    ex <- terra::extract(rast_obj, poly, method = "simple", bind = TRUE)
+    #add burn class to extraction and assign burn class values to extracted
+    ex$burn_class <- burn_class_val
+    #add and assign year
+    ex$year <- yr
+    #store in list
+    ndvi_extract_list <- c(ndvi_extract_list, list(ex))
+  }
+}
+#(4)make into dataframe
+ndvi_per_bs <- bind_rows(ndvi_extract_list)
+
+#change mean to ndvi (name stored is spatrast list)
+ndvi_per_bs <- ndvi_per_bs %>%
+  rename(ndvi = mean)
+
+#(5)plot ndvi composite of each year 
+ndvi_years <- list(
+  "2018" = ndvi_per_year[["2018"]],
+  "2019" = ndvi_per_year[["2019"]],
+  "2020" = ndvi_per_year[["2020"]],
+  "2021" = ndvi_per_year[["2021"]]
+)
+
+#set plot layout
+par(mfrow = c(2, 2)) 
+#loop over each year to plot
+for (yr in names(ndvi_years)) {
+  plot(
+  ndvi_years[[yr]],
+  main = paste("NDVI", yr),   
+  range = c(0, 0.5),           
+  axes = TRUE
+  )
+}
+ 
+#(6)boxplot
+#make ordered so burn class plots unburned to high burn
+ndvi_per_bs$burn_class <- factor(ndvi_per_bs$burn_class, levels = c("Unburned", "Low Severity", "Medium Severity", "High Severity"), ordered = TRUE)
+
+ggplot(ndvi_per_bs, aes(x=year, y=ndvi, fill=burn_class)) + 
+  geom_boxplot(position = position_dodge()) +
+  labs(fill = "Burn Severity") +
+  scale_fill_manual(values = c("green", "yellow", "orange", "red"))
+```
+
+:::
