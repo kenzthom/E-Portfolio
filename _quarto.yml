@@ -1,23 +1,23 @@
 project:
   type: website
-  output-dir: C:/Users/melser/Documents/GitHub/E-Portfolio
+  output-dir: C:/Users/kenzthom.stu/OneDrive - UBC/GIT/E-Portfolio
 
 website:
-  title: "Your E-Portfolio"
+  title: "Mackenzie Thomson"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - href: resume.qmd
         text: Resume
-      - href: publications.qmd
-        text: Publications
       - href: content.qmd
         text: Content & Deliverables
+      - href: contact.qmd
+        text: Contact Info
 
 format:
   html:
-    theme: flatly
+    theme: minty
     css: styles.css
     toc: true
 
