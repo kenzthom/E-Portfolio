@@ -1,0 +1,103 @@
+---
+title: "Map Gallery"
+---
+
+:::::: columns
+::: {.column width="55%"}
+![](images/GEM511_MThomson_Lab3_FinalMap.png)
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+### Terrain and Riparian Management Area Analysis
+
+This map visualizes the Nahmint watershed and riparian management areas. This analysis mapped the stream network using a DEM and extracted stream characteristics to quantify riparian reserve and management zones buffers.
+:::
+::::::
+
+<br>
+
+:::::: columns
+::: {.column width="55%"}
+![](images/GEM511_Lab2_Map.png)
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+### Salmon Stream Network Analysis
+
+This hydrology based analysis applied network topology to evaluate a capability model of salmon habitat along stream segments using linear referencing. This allowed reachable upstream salmon habitat to be visualized and quantified.
+:::
+::::::
+
+<br>
+
+:::::: columns
+::: {.column width="55%"}
+![](images/PANEL.png)
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+### Spatial Interpolation and Visualization of LiDAR Data
+
+This layout provides a side-by-side comparison of different spatial interpolation algorithms. Zonal statistics present differences between elevation and slope rasters produced with Spline, Nearest Neighbour, and Kriging.
+:::
+::::::
+
+<br>
+
+:::::: columns
+::: {.column width="55%"}
+![](images/Lab6_FinalMap.png)
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+### Manual Digitization Accuracy Assessment
+
+This map represents an accuracy assessment comparing manually digitized building footprints to reference data. Kart was utilized for spatial version control.
+:::
+::::::
+
+<br>
+
+:::::: columns
+::: {.column width="55%"}
+![](images/GEM510_Lab5_MThomson_LCPAnalysisMap.png)
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+### Least Cost Path Analysis
+
+This analysis determines the most efficient routes for Grizzly Bears across a complex landscape, accounting for 'costs' such as steep terrain, land cover, and road crossings.
+:::
+::::::
+
+<br>
+
+:::::: columns
+::: {.column width="55%"}
+![](images/GEM510_Lab3_OGmap.png)
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+### Cartographic Modelling of Old Growth Forest Inventories
+
+A spatial assessment of old-growth forest patches. This map compares the percent of old growth forest, derived from VRI, to provincial targets. It highlights conservation priorities based on forest age and fragmentation metrics.
+:::
+::::::

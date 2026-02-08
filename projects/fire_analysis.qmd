@@ -1,5 +1,5 @@
 ---
-title: "Analysis of fire burn severity and post-fire vegetation recovery with Landsat"
+title: "Analysis of Fire Burn Severity and Post-Fire Vegetation Recovery with Landsat"
 format:
   html:
     code-fold: true
@@ -8,6 +8,8 @@ image: "fire_cover.png"
 ---
 
 This project quantified the burn severity of the Prouton Lakes fire and examined the recovery and re-establishment of vegetation in the years following the fire using Landsat 8 OLI imagery.
+
+Check out some code snippets:
 
 ::: {.callout-note collapse="true"}
 
@@ -468,3 +470,7 @@ ggplot(ndvi_per_bs, aes(x=year, y=ndvi, fill=burn_class)) +
 ```
 
 :::
+
+------------------------------------------------------------------------
+
+# Results

@@ -3,7 +3,8 @@
     "listing": "/content.html",
     "items": [
       "/projects/fire_analysis.html",
-      "/projects/solar_suitability.html"
+      "/projects/solar_suitability.html",
+      "/projects/individual_tree_seg.html"
     ]
   }
 ]

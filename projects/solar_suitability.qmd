@@ -39,7 +39,7 @@ Using spatial analysis and weighted overlay techniques, I produced a suitability
 
 The project demonstrates the application of geospatial tools to renewable energy planning and supports data-driven decision-making for sustainable infrastructure development.
 
-## Suitability Map
+## Interactive Suitability Map
 
 Suitability is ranked on a 1-5 scale, with 1 being least suitable and 5 being very suitable.
 

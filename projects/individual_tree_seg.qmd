@@ -1,0 +1,23 @@
+---
+title: "Individual Tree Segmentation using LiDAR Data from Malcolm Knapp Research Forest"
+---
+
+This analysis utilized the LidR package to test two general methods of Individual Tree Segmentation. Point cloud normalization and filtering was completed beforehand using a point cloud derived DEM.
+
+1.  Point Cloud: Segmentation is based solely on the normalized point cloud data. Li et al., 2012 (Li2012) algorithm is used.
+
+    ```         
+    plot_1_seg <- segment_trees(mkrf_plot_1, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
+    plot(plot_1_seg, color = "treeID")
+
+    plot_2_seg <- segment_trees(mkrf_plot_2, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
+    plot(plot_2_seg, color = "treeID")
+
+    plot_3_seg <- segment_trees(mkrf_plot_3, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
+    plot(plot_3_seg, color = "treeID")
+
+    plot_4_seg <- segment_trees(mkrf_plot_4, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
+    plot(plot_4_seg, color = "treeID")
+    ```
+
+2.  Canopy Height Model (CHM): segmentation is based on information from a 2D CHM
