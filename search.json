@@ -60,7 +60,7 @@
     "href": "content.html",
     "title": "Content & Deliverables",
     "section": "",
-    "text": "Here you can find a collection of my work throughout the MGEM program. Click on a card to explore the projects and interactive results.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAnalysis of Fire Burn Severity and Post-Fire Vegetation Recovery with Landsat\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCapstone Project: GIS-Based Site Suitability Analysis for Solar Farms in British Columbia, Canada\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIndividual Tree Segmentation using LiDAR Data from Malcolm Knapp Research Forest\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Here you can find a collection of my work throughout the MGEM program. Click on a card to explore the projects and interactive results.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAnalysis of Fire Burn Severity and Post-Fire Vegetation Recovery with Landsat\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCapstone Project: GIS-Based Site Suitability Analysis for Solar Farms in British Columbia, Canada\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIndividual Tree Segmentation using LiDAR Data from Malcolm Knapp Research Forest\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "map_gallery.html",
@@ -74,7 +74,35 @@
     "href": "projects/individual_tree_seg.html",
     "title": "Individual Tree Segmentation using LiDAR Data from Malcolm Knapp Research Forest",
     "section": "",
-    "text": "This analysis utilized the LidR package to test two general methods of Individual Tree Segmentation. Point cloud normalization and filtering was completed beforehand using a point cloud derived DEM.\n\nPoint Cloud: Segmentation is based solely on the normalized point cloud data. Li et al., 2012 (Li2012) algorithm is used.\nplot_1_seg &lt;- segment_trees(mkrf_plot_1, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))\nplot(plot_1_seg, color = \"treeID\")\n\nplot_2_seg &lt;- segment_trees(mkrf_plot_2, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))\nplot(plot_2_seg, color = \"treeID\")\n\nplot_3_seg &lt;- segment_trees(mkrf_plot_3, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))\nplot(plot_3_seg, color = \"treeID\")\n\nplot_4_seg &lt;- segment_trees(mkrf_plot_4, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))\nplot(plot_4_seg, color = \"treeID\")\nCanopy Height Model (CHM): segmentation is based on information from a 2D CHM"
+    "text": "This analysis utilized the LidR package to test two general methods of Individual Tree Segmentation. Point cloud normalization and filtering was completed beforehand using a point cloud derived DEM."
+  },
+  {
+    "objectID": "projects/individual_tree_seg.html#method-1",
+    "href": "projects/individual_tree_seg.html#method-1",
+    "title": "Individual Tree Segmentation using LiDAR Data from Malcolm Knapp Research Forest",
+    "section": "Method 1",
+    "text": "Method 1\nPoint Cloud: Segmentation was based solely on the normalized point cloud data. Li et al., 2012 (Li2012) algorithm was used.\nplot_1_seg &lt;- segment_trees(mkrf_plot_1, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))\nplot(plot_1_seg, color = \"treeID\")\n\nplot_2_seg &lt;- segment_trees(mkrf_plot_2, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))\nplot(plot_2_seg, color = \"treeID\")\n\nplot_3_seg &lt;- segment_trees(mkrf_plot_3, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))\nplot(plot_3_seg, color = \"treeID\")\n\nplot_4_seg &lt;- segment_trees(mkrf_plot_4, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))\nplot(plot_4_seg, color = \"treeID\")"
+  },
+  {
+    "objectID": "projects/individual_tree_seg.html#results",
+    "href": "projects/individual_tree_seg.html#results",
+    "title": "Individual Tree Segmentation using LiDAR Data from Malcolm Knapp Research Forest",
+    "section": "Results",
+    "text": "Results\n\n\n\n\n\n\nPlot 1\n\n\n\n\n\n\n\nPlot 2\n\n\n\n\n\n\n\n\n\nPlot 3\n\n\n\n\n\n\n\nPlot 4"
+  },
+  {
+    "objectID": "projects/individual_tree_seg.html#method-2",
+    "href": "projects/individual_tree_seg.html#method-2",
+    "title": "Individual Tree Segmentation using LiDAR Data from Malcolm Knapp Research Forest",
+    "section": "Method 2",
+    "text": "Method 2\nCanopy Height Model (CHM): Segmentation is based on a CHM using the tree-centric approach. Dalponte and Coomes (dalponte2016) algorithm was used.\nchm_plot1 &lt;- rasterize_canopy(mkrf_plot_1, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))\ntree_tops1 &lt;- locate_trees(chm_plot1, lmf(ws = 5, hmin = 2))\nplot(chm_plot1, main = \"Plot 1\")\nplot(tree_tops1, add = TRUE)\n\nchm_plot2 &lt;- rasterize_canopy(mkrf_plot_2, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))\ntree_tops2 &lt;- locate_trees(chm_plot2, lmf(ws = 5, hmin = 2))\nplot(chm_plot2, main = \"Plot 2\")\nplot(tree_tops2, add = TRUE)\n\nchm_plot3 &lt;- rasterize_canopy(mkrf_plot_3, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))\ntree_tops3 &lt;- locate_trees(chm_plot3, lmf(ws = 5, hmin = 2))\nplot(chm_plot3, main = \"Plot 3\")\nplot(tree_tops3, add = TRUE)\n\nchm_plot4 &lt;- rasterize_canopy(mkrf_plot_4, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))\ntree_tops4 &lt;- locate_trees(chm_plot4, lmf(ws = 5, hmin = 2))\nplot(chm_plot4, main = \"Plot 4\")\nplot(tree_tops4, add = TRUE)"
+  },
+  {
+    "objectID": "projects/individual_tree_seg.html#results-1",
+    "href": "projects/individual_tree_seg.html#results-1",
+    "title": "Individual Tree Segmentation using LiDAR Data from Malcolm Knapp Research Forest",
+    "section": "Results",
+    "text": "Results"
   },
   {
     "objectID": "publications.html",

@@ -12,8 +12,7 @@ This project quantified the burn severity of the Prouton Lakes fire and examined
 Check out some code snippets:
 
 ::: {.callout-note collapse="true"}
-
-## View step 1: Basic data exploration, cleaning, and filtering 
+## View step 1: Basic data exploration, cleaning, and filtering
 
 ```         
 #read in data
@@ -59,11 +58,9 @@ ggplot(total_burn, aes(x = FIRE_YEAR, y = total_burn, fill = FIRE_CAUSE)) +
   x = "Year",
   fill = "Fire Cause")
 ```
-
 :::
 
 ::: {.callout-note collapse="true"}
-
 ## View step 2: Pre-processing Level-2 products and calculating vegetation indices
 
 ```         
@@ -225,11 +222,9 @@ terra::plotRGB(after_fire_rast, r=4, g=3, b=2,
                stretch = "lin",
                main = "Before Fire")
 ```
-
 :::
 
 ::: {.callout-note collapse="true"}
-
 ## View step 3: Create yearly composites of NDVI and NBR
 
 ```         
@@ -331,12 +326,10 @@ ndvi_stack <- rast(ndvi_per_year)
 plot(ndvi_stack)
  
 ```
-
 :::
 
 ::: {.callout-note collapse="true"}
-
-## View step 4: Classify burn severity 
+## View step 4: Classify burn severity
 
 ```         
 #(1)calculate average NBR of all pixels overlaid by PL fire, for each year in the time series
@@ -388,12 +381,10 @@ prouton_geom <- st_geometry(prouton_sf)
 #overlay
 plot(prouton_geom, add = TRUE, border = "black")
 ```
-
 :::
 
 ::: {.callout-note collapse="true"}
-
-## View step 5: Quantity post-fire vegetation recovery 
+## View step 5: Quantity post-fire vegetation recovery
 
 ```         
 #(1)dnbr raster to polygons
@@ -468,7 +459,6 @@ ggplot(ndvi_per_bs, aes(x=year, y=ndvi, fill=burn_class)) +
   labs(fill = "Burn Severity") +
   scale_fill_manual(values = c("green", "yellow", "orange", "red"))
 ```
-
 :::
 
 ------------------------------------------------------------------------

@@ -120,8 +120,17 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#method-1" id="toc-method-1" class="nav-link active" data-scroll-target="#method-1">Method 1</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#method-2" id="toc-method-2" class="nav-link" data-scroll-target="#method-2">Method 2</a></li>
+  <li><a href="#results-1" id="toc-results-1" class="nav-link" data-scroll-target="#results-1">Results</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -146,8 +155,9 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>This analysis utilized the LidR package to test two general methods of Individual Tree Segmentation. Point cloud normalization and filtering was completed beforehand using a point cloud derived DEM.</p>
-<ol type="1">
-<li><p>Point Cloud: Segmentation is based solely on the normalized point cloud data. Li et al., 2012 (Li2012) algorithm is used.</p>
+<section id="method-1" class="level2">
+<h2 class="anchored" data-anchor-id="method-1">Method 1</h2>
+<p><strong>Point Cloud:</strong> Segmentation was based solely on the normalized point cloud data. Li et al., 2012 (Li2012) algorithm was used.</p>
 <pre><code>plot_1_seg &lt;- segment_trees(mkrf_plot_1, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
 plot(plot_1_seg, color = "treeID")
 
@@ -158,11 +168,95 @@ plot_3_seg &lt;- segment_trees(mkrf_plot_3, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu
 plot(plot_3_seg, color = "treeID")
 
 plot_4_seg &lt;- segment_trees(mkrf_plot_4, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
-plot(plot_4_seg, color = "treeID")</code></pre></li>
-<li><p>Canopy Height Model (CHM): segmentation is based on information from a 2D CHM</p></li>
-</ol>
+plot(plot_4_seg, color = "treeID")</code></pre>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gifs/plot1_treeid_trim.gif" class="img-fluid figure-img"></p>
+<figcaption>Plot 1</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gifs/plot2_treeid_trim.gif" class="img-fluid figure-img"></p>
+<figcaption>Plot 2</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gifs/plot3_treeid_trim.gif" class="img-fluid figure-img"></p>
+<figcaption>Plot 3</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gifs/plot4_treeid_trim.gif" class="img-fluid figure-img"></p>
+<figcaption>Plot 4</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="method-2" class="level2">
+<h2 class="anchored" data-anchor-id="method-2">Method 2</h2>
+<p><strong>Canopy Height Model (CHM)</strong>: Segmentation is based on a CHM using the tree-centric approach. Dalponte and Coomes (dalponte2016) algorithm was used.</p>
+<pre><code>chm_plot1 &lt;- rasterize_canopy(mkrf_plot_1, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
+tree_tops1 &lt;- locate_trees(chm_plot1, lmf(ws = 5, hmin = 2))
+plot(chm_plot1, main = "Plot 1")
+plot(tree_tops1, add = TRUE)
+
+chm_plot2 &lt;- rasterize_canopy(mkrf_plot_2, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
+tree_tops2 &lt;- locate_trees(chm_plot2, lmf(ws = 5, hmin = 2))
+plot(chm_plot2, main = "Plot 2")
+plot(tree_tops2, add = TRUE)
+
+chm_plot3 &lt;- rasterize_canopy(mkrf_plot_3, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
+tree_tops3 &lt;- locate_trees(chm_plot3, lmf(ws = 5, hmin = 2))
+plot(chm_plot3, main = "Plot 3")
+plot(tree_tops3, add = TRUE)
+
+chm_plot4 &lt;- rasterize_canopy(mkrf_plot_4, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
+tree_tops4 &lt;- locate_trees(chm_plot4, lmf(ws = 5, hmin = 2))
+plot(chm_plot4, main = "Plot 4")
+plot(tree_tops4, add = TRUE)</code></pre>
+</section>
+<section id="results-1" class="level2">
+<h2 class="anchored" data-anchor-id="results-1">Results</h2>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="..\images/plot1_seg.png" class="img-fluid"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="..\images/plot2_seg.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="..\images/plot3_seg.png" class="img-fluid"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="..\images/plot4_seg.png" class="img-fluid"></p>
+</div>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

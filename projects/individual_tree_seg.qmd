@@ -1,23 +1,74 @@
 ---
 title: "Individual Tree Segmentation using LiDAR Data from Malcolm Knapp Research Forest"
+image: "ITS_Cover.png"
 ---
 
 This analysis utilized the LidR package to test two general methods of Individual Tree Segmentation. Point cloud normalization and filtering was completed beforehand using a point cloud derived DEM.
 
-1.  Point Cloud: Segmentation is based solely on the normalized point cloud data. Li et al., 2012 (Li2012) algorithm is used.
+## Method 1
 
-    ```         
-    plot_1_seg <- segment_trees(mkrf_plot_1, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
-    plot(plot_1_seg, color = "treeID")
+**Point Cloud:** Segmentation was based solely on the normalized point cloud data. Li et al., 2012 (Li2012) algorithm was used.
 
-    plot_2_seg <- segment_trees(mkrf_plot_2, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
-    plot(plot_2_seg, color = "treeID")
+```         
+plot_1_seg <- segment_trees(mkrf_plot_1, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
+plot(plot_1_seg, color = "treeID")
 
-    plot_3_seg <- segment_trees(mkrf_plot_3, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
-    plot(plot_3_seg, color = "treeID")
+plot_2_seg <- segment_trees(mkrf_plot_2, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
+plot(plot_2_seg, color = "treeID")
 
-    plot_4_seg <- segment_trees(mkrf_plot_4, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
-    plot(plot_4_seg, color = "treeID")
-    ```
+plot_3_seg <- segment_trees(mkrf_plot_3, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
+plot(plot_3_seg, color = "treeID")
 
-2.  Canopy Height Model (CHM): segmentation is based on information from a 2D CHM
+plot_4_seg <- segment_trees(mkrf_plot_4, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
+plot(plot_4_seg, color = "treeID")
+```
+
+## Results
+
+::: {layout-ncol="2"}
+![Plot 1](gifs/plot1_treeid_trim.gif)
+
+![Plot 2](gifs/plot2_treeid_trim.gif)
+
+![Plot 3](gifs/plot3_treeid_trim.gif)
+
+![Plot 4](gifs/plot4_treeid_trim.gif)
+:::
+
+## Method 2
+
+**Canopy Height Model (CHM)**: Segmentation is based on a CHM using the tree-centric approach. Dalponte and Coomes (dalponte2016) algorithm was used.
+
+```         
+chm_plot1 <- rasterize_canopy(mkrf_plot_1, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
+tree_tops1 <- locate_trees(chm_plot1, lmf(ws = 5, hmin = 2))
+plot(chm_plot1, main = "Plot 1")
+plot(tree_tops1, add = TRUE)
+
+chm_plot2 <- rasterize_canopy(mkrf_plot_2, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
+tree_tops2 <- locate_trees(chm_plot2, lmf(ws = 5, hmin = 2))
+plot(chm_plot2, main = "Plot 2")
+plot(tree_tops2, add = TRUE)
+
+chm_plot3 <- rasterize_canopy(mkrf_plot_3, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
+tree_tops3 <- locate_trees(chm_plot3, lmf(ws = 5, hmin = 2))
+plot(chm_plot3, main = "Plot 3")
+plot(tree_tops3, add = TRUE)
+
+chm_plot4 <- rasterize_canopy(mkrf_plot_4, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
+tree_tops4 <- locate_trees(chm_plot4, lmf(ws = 5, hmin = 2))
+plot(chm_plot4, main = "Plot 4")
+plot(tree_tops4, add = TRUE)
+```
+
+## Results
+
+::: {layout-ncol="2"}
+![](/images/plot1_seg.png)
+
+![](/images/plot2_seg.png)
+
+![](/images/plot3_seg.png)
+
+![](/images/plot4_seg.png)
+:::
