@@ -22,5 +22,5 @@ about:
 With a Bachelor’s degree in Geography and hands-on experience as a forestry field technician, I have a deep appreciation for the complexity of British Columbia’s landscapes. Currently pursuing a Master’s in Geomatics for Environmental Management (MGEM) at UBC, I’m turning that field experience into technical expertise. I’m passionate about leveraging geospatial technologies to better understand and manage our changing environments. Through the MGEM program, I’m honing my skills in spatial modeling, remote sensing, and geospatial data analysis to tackle complex environmental challenges.
 
 ::: logo-row
-![](images/mgem logo.jpg){.logo width="200"} ![](images/Screenshot 2026-02-10 124500.png){.logo width="227"}
+![](images/mgem%20logo.jpg){.logo width="200"} ![](images/Screenshot%202026-02-10%20124500.png){.logo width="227"}
 :::

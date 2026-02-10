@@ -1,26 +1,19 @@
 ---
-title: "Contact"
+title: "I'd love to hear from you!"
 format: html
 editor: visual
 ---
 
-## Quarto
+*I’ll reply as soon as I’m back from the field or trails.*
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+[LinkedIn](https://www.linkedin.com/in/mackenzie-thomson-455828253/){.btn .btn-primary} [GitHub](https://github.com/kenzthom){.btn .btn-primary} [Email](mailto:kenzthom@student.ubc.ca){.btn .btn-primary}
 
-## Running Code
+::::: {.columns style="gap:10px;"}
+::: {.column width="50%"}
+![](images/mebike.jpg)
+:::
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
+::: {.column width="50%"}
+![](images/sheds.jpg)
+:::
+:::::
