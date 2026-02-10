@@ -2,8 +2,9 @@
 title: "Mackenzie Thomson"
 image: images/me_and_mt_currie.jpg
 about:
-  template: trestles
-  image-width: 20em
+  template: jolla
+  image-width: 25em
+  image-shape: round 
   links: 
     - icon: linkedin
       text: LinkedIn
@@ -16,6 +17,10 @@ about:
       href: mailto:kenzthom@student.ubc.ca
 ---
 
-Hi, I'm Mackenzie Thomson!
+**Master’s Student in Geomatics for Environmental Management**
 
-I hold a Bachelor’s degree in Geography from the University of British Columbia and am currently pursuing a Master’s in Geomatics for Environmental Management (MGEM) under UBC’s Faculty of Forestry. I’m passionate about applying geospatial technologies to better understand and manage our changing environments. I have a background in the forestry industry as a field technician, where I gained experience in field data collection and forest tenure management across British Columbia. Through the MGEM program, I’m expanding my skills in spatial modelling, remote sensing, and geospatial data analysis to address complex environmental challenges. Currently, I’m developing a model to map solar photovoltaic (PV) suitability across BC, integrating environmental, climate, and infrastructure data to support sustainable energy planning – check it out in the ‘Content & Deliverables’ tab!
+With a Bachelor’s degree in Geography and hands-on experience as a forestry field technician, I have a deep appreciation for the complexity of British Columbia’s landscapes. Currently pursuing a Master’s in Geomatics for Environmental Management (MGEM) at UBC, I’m turning that field experience into technical expertise. I’m passionate about leveraging geospatial technologies to better understand and manage our changing environments. Through the MGEM program, I’m honing my skills in spatial modeling, remote sensing, and geospatial data analysis to tackle complex environmental challenges.
+
+::: logo-row
+![](images/mgem logo.jpg){.logo width="200"} ![](images/Screenshot 2026-02-10 124500.png){.logo width="227"}
+:::
