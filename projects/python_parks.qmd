@@ -1,0 +1,410 @@
+---
+title: "Investigating Species at Risk Observations Within Canadian National Parks"
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+image: "py_parks_cover.png" 
+---
+
+Species at risk (SAR), particularly those with specialized habitat requirements, are highly vulnerable to landscape change driven by human activity and development. Protected areas are intended to mitigate these pressures by conserving critical habitats and maintaining biodiversity. However, while national parks encompass a range of ecosystems, certain habitats essential to SAR may be underrepresented within park boundaries and therefore inadequately protected. This national-scale analysis evaluates which SAR occur within Canadian national parks and assesses whether their associated habitats are sufficiently represented. For this study, the analysis focused on terrestrial mammals, with all data processing conducted in Python using Pandas, GeoPandas, and Matplotlib.
+
+Created with: Kenzie Stevenson, Asiya Rizva
+
+# Data
+
+-   Canadian Provincial Park Polygons
+
+-   SAR Registry (as defined under the Species at Risk Act)
+
+-   GBIF (Global Biodiversity Information Facility) Species Occurrence Data
+
+# **Objective 1:** Identify the spatial occurrence of species at risk in Canadian National Parks
+
+::: {.callout-note collapse="true"}
+## Clean SAR data
+
+```         
+# Filter sar_df to only include terrestrial mammals. This cuts down the time taken for this analysis.
+sar_df_filtered = sar_df[sar_df["taxonomic_group"] == "Mammals (terrestrial)"]
+
+# Create list of ALL sar species names from the sar_df_filtered file
+all_species_list = list(sar_df_filtered.iloc[:, 3])
+
+# Remove duplicates from the species list.
+tar_species = list(set(all_species_list))
+
+# Check that the tar species have been kept
+print(tar_species)
+
+# Inspect the length to get an idea of expected computation time.
+len(tar_species)
+```
+:::
+
+::: {.callout-note collapse="true"}
+## Pull GBIF data
+
+```         
+# Adapted from Seely https://github.com/subornaa/Geospatial-data-analysis-project-started-kit/blob/main/parks_sar.ipynb
+# Based on code from https://discourse.gbif.org/t/retrieving-inaturalist-observations-for-a-region-observers-with-pygbif/4565
+
+species_occurrences = {}
+
+# Adapted into a loop to download observations for each species in our target list.
+for TARGET_SP in tar_species:
+    # Indicate which species is being downloaded
+    print(f"\nDownloading occurrences for {TARGET_SP}...")
+
+    # Create empty list for results
+    results = []
+    offset = 0
+    # If occurrences are for TARGET_SP, in Canada, have coordinates and no geospatial issues, assign them to out
+    while True:
+        out = occurrences.search(scientificName=TARGET_SP, # this seaches the GBIF database for all observations of the species in the loop.
+                                 country='CA', # this narrows down the scope to Canada
+                                 hasCoordinate=True,
+                                 hasGeospatialIssue=False,
+                                 offset=offset
+                                )
+        # If there are no results of occurrences, break
+        if len(out['results']) == 0:
+            break
+        # Give an indication of progress
+        results.extend(out['results'])
+        offset += len(out['results'])
+        print(f"Total records downloaded: {len(results)}")
+
+    # If no reslts, continue
+    if not results:
+        print(f"---No data found for {TARGET_SP}")
+        continue
+
+    lat_ls = [results[i]['decimalLatitude'] for i in range(len(results))]
+    lon_ls = [results[i]['decimalLongitude'] for i in range(len(results))]
+
+    # Create dataframe of results for this species.
+    df = pd.DataFrame(results)
+
+    # Append results for this species to the occurrences_gdf
+    occurrences_gdf = gpd.GeoDataFrame(
+        df,
+        geometry=gpd.points_from_xy(df.decimalLongitude, df.decimalLatitude),
+        # Indicate df crs
+        crs="EPSG:4326"
+        # Transform to parks_gdf crs
+    ).to_crs(parks_gdf.crs)
+
+    # Keep only points inside parks using geopandas spatial join with intersects predicate
+    in_parks_gdf = gpd.sjoin(occurrences_gdf, parks_gdf, predicate='intersects')
+
+    # Store results of species occurrences in the parks
+    species_occurrences[TARGET_SP] = in_parks_gdf
+
+    print(f"---Points inside parks: {len(in_parks_gdf)}")
+```
+:::
+
+#### Visual Results
+
+![Terrestrial mammals occurrence data plotting within Canadian Parks using GBIF and SAR Registry.](/images/SAR_parks.png){width="583"}
+
+# **Objective 2** Analyze conservation value of the National Parks
+
+::: {.callout-note collapse="true"}
+## Calculate index that represents conservation value of each park
+
+```         
+# Create a dataframe with values based on the SARA listing level of each species found in each park 
+# These values were subjectively selected and could be adapted based on further research.
+# Higher risk species given a higher weight than lower risk species
+
+rank_value_df = pd.DataFrame({
+    "sara_status": ["Endangered", "Threatened", "Special Concern"],
+    "sara_value": [7, 3, 1]
+})
+
+# Merge the sar_df with the rank_value_df to have a SARA value for each species
+    # Merge is the geopandas attribute join, as opposed to s.join which is the spatial join
+sar_df_vals = sar_df_filtered.merge(rank_value_df, on="sara_status", how="left")
+
+# Keep only relevant SARA fields
+sara_info = (sar_df_vals[["species", "sara_status", "sara_value"]])
+
+# Reset index (drop the old index so we don't get duplicate columns)
+all_sp_occ = all_sp_occ.reset_index(drop=True)
+
+# Merge SARA info into occurrences, add SARA_info (all relevant fields) to all occurrences
+all_occ = all_sp_occ.merge(sara_info, on="species", how="left")
+
+# Drop any duplicates of the same species and park combination
+unique_species_per_park = all_occ.drop_duplicates(subset=["NAME_E", "species"])
+
+# Counts the number of unique species per park
+summary = (
+    # Start with DataFrame
+    unique_species_per_park
+    # Group by unique park name and endangered status
+    .groupby(["NAME_E", "sara_status"])
+    # Count the number of species in each park/sara status category
+    .agg(n_species=("species", "count"))
+    .reset_index()
+)
+
+print("National Parks and number of occurring listed species: \n", summary)
+
+National Parks and number of occurring listed species: 
+                                                NAME_E      sara_status  \
+0                     AULAVIK NATIONAL PARK OF CANADA  Special Concern   
+1                   AUYUITTUQ NATIONAL PARK OF CANADA  Special Concern   
+2                       BANFF NATIONAL PARK OF CANADA       Endangered   
+3                       BANFF NATIONAL PARK OF CANADA  Special Concern   
+4       CAPE BRETON HIGHLANDS NATIONAL PARK OF CANADA  Special Concern   
+5                    FORILLON NATIONAL PARK OF CANADA  Special Concern   
+6                       FUNDY NATIONAL PARK OF CANADA       Endangered   
+7        GEORGIAN BAY ISLANDS NATIONAL PARK OF CANADA       Endangered   
+8                     GLACIER NATIONAL PARK OF CANADA  Special Concern   
+9                  GRASSLANDS NATIONAL PARK OF CANADA       Endangered   
+10                 GRASSLANDS NATIONAL PARK OF CANADA  Special Concern   
+11                 GRASSLANDS NATIONAL PARK OF CANADA       Threatened   
+12                 GROS MORNE NATIONAL PARK OF CANADA  Special Concern   
+13       GWAII HAANAS NATIONAL PARK RESERVE OF CANADA       Endangered   
+14       GWAII HAANAS NATIONAL PARK RESERVE OF CANADA  Special Concern   
+15                    IVVAVIK NATIONAL PARK OF CANADA  Special Concern   
+16                     JASPER NATIONAL PARK OF CANADA       Endangered   
+17                     JASPER NATIONAL PARK OF CANADA  Special Concern   
+18                 KEJIMKUJIK NATIONAL PARK OF CANADA       Endangered   
+19                     KLUANE NATIONAL PARK OF CANADA  Special Concern   
+20             KLUANE NATIONAL PARK RESERVE OF CANADA  Special Concern   
+21                   KOOTENAY NATIONAL PARK OF CANADA  Special Concern   
+22              KOUCHIBOUGUAC NATIONAL PARK OF CANADA       Endangered   
+23           MOUNT REVELSTOKE NATIONAL PARK OF CANADA       Endangered   
+24           MOUNT REVELSTOKE NATIONAL PARK OF CANADA  Special Concern   
+25            NAHANNI NATIONAL PARK RESERVE OF CANADA  Special Concern   
+26  NÃÃTSâIHCHâOH NATIONAL PARK RESERVE OF C...  Special Concern   
+27                POINT PELEE NATIONAL PARK OF CANADA       Endangered   
+28                POINT PELEE NATIONAL PARK OF CANADA  Special Concern   
+29              PRINCE ALBERT NATIONAL PARK OF CANADA       Endangered   
+30              PRINCE ALBERT NATIONAL PARK OF CANADA  Special Concern   
+31                 QAUSUITTUQ NATIONAL PARK OF CANADA  Special Concern   
+32               QUTTINIRPAAQ NATIONAL PARK OF CANADA  Special Concern   
+33            RIDING MOUNTAIN NATIONAL PARK OF CANADA  Special Concern   
+34                   SIRMILIK NATIONAL PARK OF CANADA  Special Concern   
+35                 TERRA NOVA NATIONAL PARK OF CANADA  Special Concern   
+36      THAIDENE NENE NATIONAL PARK RESERVE OF CANADA  Special Concern   
+37          TORNGAT MOUNTAINS NATIONAL PARK OF CANADA  Special Concern   
+38              TUKTUT NOGAIT NATIONAL PARK OF CANADA  Special Concern   
+39                     VUNTUT NATIONAL PARK OF CANADA  Special Concern   
+40                     WAPUSK NATIONAL PARK OF CANADA  Special Concern   
+41             WATERTON LAKES NATIONAL PARK OF CANADA       Endangered   
+42             WATERTON LAKES NATIONAL PARK OF CANADA  Special Concern   
+43               WOOD BUFFALO NATIONAL PARK OF CANADA       Endangered   
+44               WOOD BUFFALO NATIONAL PARK OF CANADA  Special Concern   
+45                       YOHO NATIONAL PARK OF CANADA  Special Concern   
+
+    n_species  
+0           1  
+1           2  
+2           1  
+3           3  
+4           1  
+5           1  
+6           1  
+7           1  
+8           1  
+9           1  
+10          1  
+11          1  
+12          1  
+13          1  
+14          1  
+15          4  
+16          1  
+17          3  
+18          1  
+19          3  
+20          3  
+21          2  
+22          1  
+23          1  
+24          1  
+25          3  
+26          2  
+27          1  
+28          1  
+29          1  
+30          1  
+31          2  
+32          1  
+33          1  
+34          1  
+35          1  
+36          2  
+37          2  
+38          2  
+39          2  
+40          2  
+41          1  
+42          2  
+43          1  
+44          2  
+45          2  
+```
+:::
+
+::: {.callout-note collapse="true"}
+## Assign final weighted score to each park
+
+```         
+# Merge the DataFrames to have SARA_values from rank_value_df
+summary_with_values = summary.merge(rank_value_df, on="sara_status", how="left")
+
+# Create new column that calculates the final weighted score for each park
+# Weighted score is calculated as the number of species multiplied by the weight of that listing level summed for the park.
+summary_with_values["weighted_score"] = summary_with_values["n_species"] * summary_with_values["sara_value"]
+
+
+# Create summary table with Park Scores
+park_scores = (
+    # Start with the DataFrame
+    summary_with_values
+    # Group by unique name and weighted score, sum and sort
+    .groupby("NAME_E")["weighted_score"]
+    .sum()
+    .reset_index(name="weighted_score")
+    .sort_values("weighted_score", ascending=False)
+)
+
+park_scores2 = park_scores.copy()
+# Clean up National Park Names
+park_scores2['NAME_E']=park_scores2['NAME_E'].str.replace('NATIONAL PARK OF CANADA', '')
+park_scores2['NAME_E']=park_scores2['NAME_E'].str.replace('NATIONAL PARK RESERVE OF CANADA', '')
+
+print("The top 5 parks with highest conservation value are \n", park_scores2.head(5))
+
+The top 5 parks with highest conservation value are 
+              NAME_E  weighted_score
+8       GRASSLANDS               11
+2            BANFF               10
+12          JASPER               10
+34    WOOD BUFFALO                9
+33  WATERTON LAKES                9
+```
+:::
+
+#### Visual Results
+
+::::: columns
+::: {.column width="48%"}
+![Final weighted conservation score for each park, determined by number of species occurrences per park and weight of SAR listing level](/images/final_parks_score.png)
+:::
+
+::: {.column width="48%"}
+![Conservation value plotted per Canadian Park with at-risk terrestrial mammals](/images/conservation_parks.png)
+:::
+:::::
+
+# **Objective 3:** Identify species with underrepresented habitat in parks
+
+::: {.callout-note collapse="true"}
+## Use point buffer as indicator of species core habitat
+
+```         
+# Make sure CRS of two input layers match
+all_sp_occ = all_sp_occ.to_crs(parks_gdf.crs)
+
+# Create 5000 m buffer around each species observation point
+    # We selected a large buffer to capture potential habitat for each species. A large buffer reduces the impact of many occurrences on the percieved habitat size.
+    # In the full analysis, we would utilize available landcover layers, and available range information to indicate what is truly "available habitat".
+all_sp_occ['buffer'] = all_sp_occ.geometry.buffer(5000)
+
+# Set buffer as the active geometry column
+all_sp_occ = all_sp_occ.set_geometry('buffer')
+
+# Dissolve buffers so area is not double counted for occurences with overlapping buffers
+buffers_dissolved = all_sp_occ.dissolve(by='species', as_index = False)
+
+# Intersect dissolved species buffers with parks polygon layer
+buffers_in_parks = gpd.overlay(buffers_dissolved, parks_gdf, how='intersection')
+
+# Calculate area in km2
+buffers_in_parks['area_km2'] = buffers_in_parks.geometry.area / 1_000_000
+
+# Create summary table
+species_area_summary = (
+    buffers_in_parks
+    .groupby('species')['area_km2']
+    .sum()
+    .reset_index()
+    .sort_values(by='area_km2')
+)
+print("The species with the least area of habitat in the National Parks are: \n", species_area_summary)
+
+The species with the least area of habitat in the National Parks are: 
+                    species      area_km2
+8     Perimyotis subflavus     13.054551
+10      Scalopus aquaticus     15.796986
+14            Vulpes velox     21.008782
+6   Myotis septentrionalis     76.354091
+4         Martes americana    127.617918
+11           Taxidea taxus    149.835180
+1              Canis lupus    156.827425
+2     Cynomys ludovicianus    241.326510
+7        Ochotona collaris    496.586602
+5         Myotis lucifugus    834.060104
+13         Ursus maritimus   2595.591930
+3                Gulo gulo   3318.138626
+0              Bison bison   5572.034354
+9        Rangifer tarandus   5856.104859
+12            Ursus arctos  12608.552701
+```
+:::
+
+::: {.callout-note collapse="true"}
+## Further investigate Banff National Park
+
+```         
+# Sample of mapping all species habitat in one park
+# Set target park
+targ_park = "BANFF NATIONAL PARK OF CANADA"
+
+# Isolate park boundary
+park_boundary = parks_gdf[parks_gdf["NAME_E"] == targ_park]
+
+# extract just target park habitats
+targ_buffers = buffers_in_parks[buffers_in_parks["NAME_E_2"] == targ_park]
+
+# Plot the park boundary, the species habitat identified within that park
+fig, ax = plt.subplots(figsize=(12, 12))
+park_boundary.plot(
+    ax=ax,
+    edgecolor='black',
+    facecolor='lightgrey')
+targ_buffers.plot(
+    ax=ax,
+    column='species',
+    cmap='tab20',
+    legend=True,
+    edgecolor='black',
+    alpha=0.6
+)
+# Add a title for that park
+ax.set_title(f"Species Habitat within {targ_park}", fontsize=16)
+# Add the basemap
+cx.add_basemap(ax, crs=parks_gdf.crs, source=cx.providers.CartoDB.PositronNoLabels, attribution="")
+ax.set_axis_off()
+plt.show()
+```
+:::
+
+#### Visual Results
+
+::::: columns
+::: {.column width="48%"}
+![Buffered observations points used as a proxy for habitat representation in Canadian Parks,](/images/park_buffers.png)
+:::
+
+::: {.column width="48%"}
+![Sample of data visualized within Banff National Park](/images/jasper_buffers.png)
+:::
+:::::
