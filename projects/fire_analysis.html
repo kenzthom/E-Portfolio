@@ -151,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This project quantified the burn severity of the Prouton Lakes fire and examined the recovery and re-establishment of vegetation in the years following the fire using Landsat 8 OLI imagery.</p>
+<p>The summer of 2017 was one of the most severe fire seasons in British Columbia, including the Prouton Lakes fire near Williams Lake. This project quantified burn severity and tracked post-fire vegetation recovery using multi-temporal Landsat 8 OLI imagery. I processed large volumes of imagery by developing custom functions and implementing iterative workflows to efficiently calculate burn severity and vegetation indices and monitor landscape-scale recovery patterns over multiple years.</p>
 <p>Check out some code snippets:</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -159,68 +159,11 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View step 1: Basic data exploration, cleaning, and filtering
+Landsat imagery processing and vegetation indices function creation
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<pre><code>#read in data
-raw_fire &lt;- sf::st_read(".../H_FIRE_PLY_polygon.shp")
-
-#drop geom
-fire &lt;- st_drop_geometry(raw_fire)
-
-#(1)what was the number of fires and total land area burned (in hectares) in 2017?
-#filter year
-fire_summary_2017 &lt;- fire %&gt;%
-  filter(FIRE_YEAR == 2017) %&gt;%
-  summarise(number_of_fires = n(),total_area_burned_ha = sum(SIZE_HA, na.rm = TRUE))
-fire_summary_2017
-
-#(2)what is the ID and burned area (in hectares) of the three largest fires recorded in 2017
-fire_largest &lt;- fire %&gt;%
-  slice_max(SIZE_HA, n = 3) %&gt;%
-  summarise(SIZE_HA, FIRE_NO)
-fire_largest
-  
-#(3)how much land area was burned by the Prouton Lakes fire (ID C30870)  
-fire_prouton &lt;- fire %&gt;%
-  filter(FIRE_NO == "C30870") %&gt;%
-  summarise(SIZE_HA, FIRE_NO)
-fire_prouton
-
-#(4)create a barplot showing the total area burned per year in BC. Each bar should be colored by fire cause
-total_burn &lt;- fire %&gt;%
-  group_by(FIRE_YEAR) %&gt;%
-  summarise(total_burn = sum(SIZE_HA, na.rm = TRUE), FIRE_CAUSE)
-total_burn
-
-#plot it
-ggplot(total_burn, aes(x = FIRE_YEAR, y = total_burn, fill = FIRE_CAUSE)) +
-  geom_bar(stat = "identity") +
-  theme_classic() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) +
-  scale_y_continuous(labels = label_comma()) + 
-  labs(
-  title = "Total Forest Fire Burn Area Per Year in BC",
-  y = "Burn Area (ha)",
-  x = "Year",
-  fill = "Fire Cause")</code></pre>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-View step 2: Pre-processing Level-2 products and calculating vegetation indices
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <pre><code>#(1)for each L2 product, put each surface reflectance band (Band 1 to Band 7) in the same raster object
 
@@ -245,7 +188,7 @@ for (i in seq_along(dirlist)) {
 }
 bands[1:5] #list of SR rasters with bands 1-7 grouped
 
-#(2)mask pixels that do not have the value 21824 (clear conditions) in the QA_PIXEL layers
+#(2)mask pixels that do not have the value 21824 (clear conditions) in the QA_PIXEL layer using function 
 
 #load in QA_PIXELS
 qa_files &lt;- list()
@@ -383,16 +326,16 @@ terra::plotRGB(after_fire_rast, r=4, g=3, b=2,
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View step 3: Create yearly composites of NDVI and NBR
+NDVI and NBR yearly composite creation
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <pre><code>#(1)get only NDVI rasts in July and August
 ndvi_files &lt;- list.files("output/LC08_L2SP_048023_NDVI", pattern="_NDVI.tif$", full.names = TRUE)
@@ -412,11 +355,6 @@ july_aug_ndvi &lt;- ndvi_files[july_aug_idx_ndvi]
 ndvi_years &lt;- format(ndvi_dates[july_aug_idx_ndvi], "%Y") #all years (includes repeats)
 unique_years_ndvi &lt;- sort(unique(ndvi_years))  #only unique years (no repeats)
 unique_years_ndvi
-
-#check
-july_aug_ndvi
-ndvi_years
-unique_years_ndvi #9 different years
 
 #(2)create yearly composites of average NDVI
 ndvi_per_year &lt;- lapply(unique_years_ndvi, function(y) {
@@ -443,11 +381,6 @@ july_aug_nbr &lt;- nbr_files[july_aug_idx_nbr]
 #get corresponding years for July/August images
 nbr_years &lt;- format(nbr_dates[july_aug_idx_nbr], "%Y")
 unique_years_nbr &lt;- sort(unique(nbr_years))
-
-#check
-july_aug_nbr
-nbr_years
-unique_years_nbr
 
 #assign years as the names
 #names(nbr_per_year) &lt;- unique_years_nbr
@@ -477,11 +410,6 @@ ndvi_fire_avg_df &lt;- data.frame(
 )
 ndvi_fire_avg_df
 
-#NaN for 2016? check to see if any NDVI pixels within PL extent 
-r2016 &lt;- ndvi_per_year[["2016"]]
-vals_raw &lt;- terra::extract(r2016, prouton_vect)
-summary(vals_raw)
-
 #plot average NDVI across the PL fire area through time
 ggplot(ndvi_fire_avg_df, (aes( x = year, y =avg_ndvi, group = 1))) +
   geom_line() +
@@ -495,16 +423,16 @@ plot(ndvi_stack)
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View step 4: Classify burn severity
+Burn severity classification
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <pre><code>#(1)calculate average NBR of all pixels overlaid by PL fire, for each year in the time series
 #prouton_vect &lt;- vect(prouton_extent_proj)
@@ -558,16 +486,16 @@ plot(prouton_geom, add = TRUE, border = "black")</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-View step 5: Quantity post-fire vegetation recovery
+Post-fire vegetation recovery quantification using NDVI
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <pre><code>#(1)dnbr raster to polygons
 burn_polys &lt;- terra::as.polygons(burn_severity, dissolve = TRUE)
@@ -646,6 +574,29 @@ ggplot(ndvi_per_bs, aes(x=year, y=ndvi, fill=burn_class)) +
 <hr>
 <section id="results" class="level1">
 <h1>Results</h1>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p><img src="..\images/ndvi_bord.png" class="img-fluid"></p>
+</div><div class="column" style="width:60%;">
+<p><strong>Image 1:</strong> Yearly composite of NDVI averaged across July and August in the Prouton Lakes fire area . Pixels with unclear conditions have been masked using Landsats QA Pixel layer.</p>
+</div>
+</div>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p><img src="..\images/reclass_bord.png" class="img-fluid"></p>
+</div><div class="column" style="width:60%;">
+<p><strong>Image 2:</strong> Prouton Lakes fire burn severity classification using bNBR values, considering 2015 as the pre-fire year and 2018 as the post-fire year. dNBR ranges are as followed: -0.2-0.15 are unburned, 0.15-0.25 are low severity, 0.25-0.3 are medium severity, 0.3-1 are high severity.</p>
+</div>
+</div>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p><img src="..\images/box_bord.png" class="img-fluid"></p>
+</div><div class="column" style="width:60%;">
+<p><strong>Image 3:</strong> Post fire vegetation recovery in years following the fire. NDVI values were extracted from each burn severity class in order to understand the distribution of vegetation recovery per class.</p>
+</div>
+</div>
 
 
 </section>

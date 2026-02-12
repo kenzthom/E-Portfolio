@@ -158,15 +158,19 @@ ul.task-list li input[type="checkbox"] {
 <section id="method-1" class="level2">
 <h2 class="anchored" data-anchor-id="method-1">Method 1</h2>
 <p><strong>Point Cloud:</strong> Segmentation was based solely on the normalized point cloud data. Li et al., 2012 (Li2012) algorithm was used.</p>
-<pre><code>plot_1_seg &lt;- segment_trees(mkrf_plot_1, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
+<pre><code>#Plot 1:
+plot_1_seg &lt;- segment_trees(mkrf_plot_1, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
 plot(plot_1_seg, color = "treeID")
 
+#Plot 2:
 plot_2_seg &lt;- segment_trees(mkrf_plot_2, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
 plot(plot_2_seg, color = "treeID")
 
+#Plot 3
 plot_3_seg &lt;- segment_trees(mkrf_plot_3, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
 plot(plot_3_seg, color = "treeID")
 
+#Plot 4
 plot_4_seg &lt;- segment_trees(mkrf_plot_4, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
 plot(plot_4_seg, color = "treeID")</code></pre>
 </section>
@@ -177,7 +181,7 @@ plot(plot_4_seg, color = "treeID")</code></pre>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gifs/plot1_treeid_trim.gif" class="img-fluid figure-img"></p>
+<p><img src="images/plot1_cloud_trimmed.gif" class="img-fluid figure-img"></p>
 <figcaption>Plot 1</figcaption>
 </figure>
 </div>
@@ -185,7 +189,7 @@ plot(plot_4_seg, color = "treeID")</code></pre>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gifs/plot2_treeid_trim.gif" class="img-fluid figure-img"></p>
+<p><img src="images/plot2_cloud_trimmed.gif" class="img-fluid figure-img"></p>
 <figcaption>Plot 2</figcaption>
 </figure>
 </div>
@@ -195,7 +199,7 @@ plot(plot_4_seg, color = "treeID")</code></pre>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gifs/plot3_treeid_trim.gif" class="img-fluid figure-img"></p>
+<p><img src="images/plot3_cloud_trimmed.gif" class="img-fluid figure-img"></p>
 <figcaption>Plot 3</figcaption>
 </figure>
 </div>
@@ -203,7 +207,7 @@ plot(plot_4_seg, color = "treeID")</code></pre>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gifs/plot4_treeid_trim.gif" class="img-fluid figure-img"></p>
+<p><img src="images/plot4_cloud_trimmed.gif" class="img-fluid figure-img"></p>
 <figcaption>Plot 4</figcaption>
 </figure>
 </div>
@@ -214,43 +218,67 @@ plot(plot_4_seg, color = "treeID")</code></pre>
 <section id="method-2" class="level2">
 <h2 class="anchored" data-anchor-id="method-2">Method 2</h2>
 <p><strong>Canopy Height Model (CHM)</strong>: Segmentation is based on a CHM using the tree-centric approach. Dalponte and Coomes (dalponte2016) algorithm was used.</p>
-<pre><code>chm_plot1 &lt;- rasterize_canopy(mkrf_plot_1, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
+<pre><code>#Plot 1:
+chm_plot1 &lt;- rasterize_canopy(mkrf_plot_1, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
 tree_tops1 &lt;- locate_trees(chm_plot1, lmf(ws = 5, hmin = 2))
-plot(chm_plot1, main = "Plot 1")
-plot(tree_tops1, add = TRUE)
+crowns_plot1 &lt;- segment_trees(mkrf_plot_1, dalponte2016(chm_plot1, tree_tops1, th_tree = 2, th_seed = 0.45, th_cr = 0.55, max_cr = 10, ID = "treeID"))
+plot(crowns_plot1, color = "treeID")
 
-chm_plot2 &lt;- rasterize_canopy(mkrf_plot_2, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
+#Plot 2:
+chm_plot2 &lt;- rasterize_canopy(mkrf_plot_2, 0.5, pitfree(thresholds = c(0, 10, 20, 30),max_edge = c(0,1), subcircle = 0.2))
 tree_tops2 &lt;- locate_trees(chm_plot2, lmf(ws = 5, hmin = 2))
-plot(chm_plot2, main = "Plot 2")
-plot(tree_tops2, add = TRUE)
+crowns_plot2 &lt;- segment_trees(mkrf_plot_2, dalponte2016(chm_plot2, tree_tops2, th_tree = 2, th_seed = 0.45, th_cr = 0.55, max_cr = 10, ID = "treeID"))
+plot(crowns_plot2, color = "treeID")
 
+#Plot 3:
 chm_plot3 &lt;- rasterize_canopy(mkrf_plot_3, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
 tree_tops3 &lt;- locate_trees(chm_plot3, lmf(ws = 5, hmin = 2))
-plot(chm_plot3, main = "Plot 3")
-plot(tree_tops3, add = TRUE)
+crowns_plot3 &lt;- segment_trees(mkrf_plot_3, dalponte2016(chm_plot3, tree_tops3, th_tree = 2, th_seed = 0.45, th_cr = 0.55, max_cr = 10, ID = "treeID"))
+plot(crowns_plot3, color = "treeID")
 
+#Plot 4:
 chm_plot4 &lt;- rasterize_canopy(mkrf_plot_4, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
 tree_tops4 &lt;- locate_trees(chm_plot4, lmf(ws = 5, hmin = 2))
-plot(chm_plot4, main = "Plot 4")
-plot(tree_tops4, add = TRUE)</code></pre>
+crowns_plot4 &lt;- segment_trees(mkrf_plot_4, dalponte2016(chm_plot4, tree_tops4, th_tree = 2, th_seed = 0.45, th_cr = 0.55, max_cr = 10, ID = "treeID"))
+plot(crowns_plot4, color = "treeID")</code></pre>
 </section>
 <section id="results-1" class="level2">
 <h2 class="anchored" data-anchor-id="results-1">Results</h2>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="..\images/plot1_seg.png" class="img-fluid"></p>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/chm_plot1_trimmed.gif" class="img-fluid figure-img"></p>
+<figcaption>Plot 1</figcaption>
+</figure>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="..\images/plot2_seg.png" class="img-fluid"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/chm_plot2_trimmed.gif" class="img-fluid figure-img"></p>
+<figcaption>Plot 2</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="..\images/plot3_seg.png" class="img-fluid"></p>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/chm_plot3_trimmed.gif" class="img-fluid figure-img"></p>
+<figcaption>Plot 3</figcaption>
+</figure>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="..\images/plot4_seg.png" class="img-fluid"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/chm_plot4_trimmed.gif" class="img-fluid figure-img"></p>
+<figcaption>Plot 4</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </div>

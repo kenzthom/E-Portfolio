@@ -10,15 +10,19 @@ This analysis utilized the LidR package to test two general methods of Individua
 **Point Cloud:** Segmentation was based solely on the normalized point cloud data. Li et al., 2012 (Li2012) algorithm was used.
 
 ```         
+#Plot 1:
 plot_1_seg <- segment_trees(mkrf_plot_1, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
 plot(plot_1_seg, color = "treeID")
 
+#Plot 2:
 plot_2_seg <- segment_trees(mkrf_plot_2, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
 plot(plot_2_seg, color = "treeID")
 
+#Plot 3
 plot_3_seg <- segment_trees(mkrf_plot_3, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
 plot(plot_3_seg, color = "treeID")
 
+#Plot 4
 plot_4_seg <- segment_trees(mkrf_plot_4, li2012(dt1 = 1.5, dt2 = 2, R = 2, Zu = 15, hmin = 2, speed_up = 10))
 plot(plot_4_seg, color = "treeID")
 ```
@@ -26,13 +30,13 @@ plot(plot_4_seg, color = "treeID")
 ## Results
 
 ::: {layout-ncol="2"}
-![Plot 1](gifs/plot1_treeid_trim.gif)
+![Plot 1](images/plot1_cloud_trimmed.gif)
 
-![Plot 2](gifs/plot2_treeid_trim.gif)
+![Plot 2](images/plot2_cloud_trimmed.gif)
 
-![Plot 3](gifs/plot3_treeid_trim.gif)
+![Plot 3](images/plot3_cloud_trimmed.gif)
 
-![Plot 4](gifs/plot4_treeid_trim.gif)
+![Plot 4](images/plot4_cloud_trimmed.gif)
 :::
 
 ## Method 2
@@ -40,35 +44,39 @@ plot(plot_4_seg, color = "treeID")
 **Canopy Height Model (CHM)**: Segmentation is based on a CHM using the tree-centric approach. Dalponte and Coomes (dalponte2016) algorithm was used.
 
 ```         
+#Plot 1:
 chm_plot1 <- rasterize_canopy(mkrf_plot_1, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
 tree_tops1 <- locate_trees(chm_plot1, lmf(ws = 5, hmin = 2))
-plot(chm_plot1, main = "Plot 1")
-plot(tree_tops1, add = TRUE)
+crowns_plot1 <- segment_trees(mkrf_plot_1, dalponte2016(chm_plot1, tree_tops1, th_tree = 2, th_seed = 0.45, th_cr = 0.55, max_cr = 10, ID = "treeID"))
+plot(crowns_plot1, color = "treeID")
 
-chm_plot2 <- rasterize_canopy(mkrf_plot_2, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
+#Plot 2:
+chm_plot2 <- rasterize_canopy(mkrf_plot_2, 0.5, pitfree(thresholds = c(0, 10, 20, 30),max_edge = c(0,1), subcircle = 0.2))
 tree_tops2 <- locate_trees(chm_plot2, lmf(ws = 5, hmin = 2))
-plot(chm_plot2, main = "Plot 2")
-plot(tree_tops2, add = TRUE)
+crowns_plot2 <- segment_trees(mkrf_plot_2, dalponte2016(chm_plot2, tree_tops2, th_tree = 2, th_seed = 0.45, th_cr = 0.55, max_cr = 10, ID = "treeID"))
+plot(crowns_plot2, color = "treeID")
 
+#Plot 3:
 chm_plot3 <- rasterize_canopy(mkrf_plot_3, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
 tree_tops3 <- locate_trees(chm_plot3, lmf(ws = 5, hmin = 2))
-plot(chm_plot3, main = "Plot 3")
-plot(tree_tops3, add = TRUE)
+crowns_plot3 <- segment_trees(mkrf_plot_3, dalponte2016(chm_plot3, tree_tops3, th_tree = 2, th_seed = 0.45, th_cr = 0.55, max_cr = 10, ID = "treeID"))
+plot(crowns_plot3, color = "treeID")
 
+#Plot 4:
 chm_plot4 <- rasterize_canopy(mkrf_plot_4, 0.5, pitfree(thresholds = c(0, 10, 20, 30), max_edge = c(0,1), subcircle = 0.2))
 tree_tops4 <- locate_trees(chm_plot4, lmf(ws = 5, hmin = 2))
-plot(chm_plot4, main = "Plot 4")
-plot(tree_tops4, add = TRUE)
+crowns_plot4 <- segment_trees(mkrf_plot_4, dalponte2016(chm_plot4, tree_tops4, th_tree = 2, th_seed = 0.45, th_cr = 0.55, max_cr = 10, ID = "treeID"))
+plot(crowns_plot4, color = "treeID")
 ```
 
 ## Results
 
 ::: {layout-ncol="2"}
-![](/images/plot1_seg.png)
+![Plot 1](images/chm_plot1_trimmed.gif)
 
-![](/images/plot2_seg.png)
+![Plot 2](images/chm_plot2_trimmed.gif)
 
-![](/images/plot3_seg.png)
+![Plot 3](images/chm_plot3_trimmed.gif)
 
-![](/images/plot4_seg.png)
+![Plot 4](images/chm_plot4_trimmed.gif)
 :::
