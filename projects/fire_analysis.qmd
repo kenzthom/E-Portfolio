@@ -265,7 +265,7 @@ plot(ndvi_stack)
 :::
 
 ::: {.callout-note collapse="true"}
-## Burn severity classification 
+## Burn severity classification
 
 ```         
 #(1)calculate average NBR of all pixels overlaid by PL fire, for each year in the time series
@@ -320,7 +320,7 @@ plot(prouton_geom, add = TRUE, border = "black")
 :::
 
 ::: {.callout-note collapse="true"}
-## Post-fire vegetation recovery quantification using NDVI  
+## Post-fire vegetation recovery quantification using NDVI
 
 ```         
 #(1)dnbr raster to polygons

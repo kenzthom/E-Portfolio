@@ -1,9 +1,9 @@
 ---
-title: "Capstone Project: GIS-Based Site Suitability Analysis for Solar Farms in British Columbia, Canada"
+title: "GIS-MCDA Site Suitability Analysis for Solar Farms in British Columbia, Canada"
 image: "Cover_Page_yellow.png" 
 ---
 
-This project evaluates potential locations for utility-scale (1MW+) solar farm development using a GIS-based multi-criteria decision analysis (MCDA). The study integrates environmental, technical, and economic considerations to identify areas most suitable for solar farm development. Data incorperated into the mask layer includes:
+This project evaluates potential locations for utility-scale (1MW+) solar farm development using a GIS-based multi-criteria decision analysis (MCDA). The study integrates environmental, technical, and economic considerations to identify areas most suitable for solar farm development. Data incorporated into the mask layer includes:
 
 -   *Agriculture Land Reserve (ALR)*
 
@@ -25,7 +25,7 @@ Data incorporated as suitability criterion in the Analytically Hierarchical Proc
 
 -   *Global Horizontal Irradiance (GHI)*
 
--   *Proximity to roads*
+-   *Proximity to major roads*
 
 -   *Proximity to major cities*
 
@@ -35,68 +35,91 @@ Data incorporated as suitability criterion in the Analytically Hierarchical Proc
 
 -   *Aspect*
 
-Using spatial analysis and weighted overlay techniques, I produced a suitability model that highlights optimal locations while minimizing environmental and land-use conflicts. All processing was completed in R at a spatial resolution of 30m in the BC Environmental Albers CRS (EPSG:3005). Upsampling and re-projection has been undergone for web-publishing.
+Using spatial analysis and weighted overlay techniques, I produced a suitability model that highlights optimal locations while minimizing environmental and land-use conflicts. All processing was completed in R at a spatial resolution of 30m in the BC Environmental Albers CRS (EPSG:3005). Aggregation to a spatial resolution of 1km and re-projection to WGS84 has been undergone for web-publishing.
 
 The project demonstrates the application of geospatial tools to renewable energy planning and supports data-driven decision-making for sustainable infrastructure development.
 
 ## Interactive Suitability Map
 
-Suitability is ranked on a 1-5 scale, with 1 being least suitable and 5 being very suitable.
+Suitability is ranked on a 1-5 scale, with 1 being least suitable and 5 being very suitable. The mask layer, ranked as 0, represents unsuitable land where solar farm installations are not feasible or permitted.
 
-The mask layer represents unsuitable land where solar farm installations are not feasible or permitted; it is comprised of data layers mentioned about.
-
-```{r leaflet, echo = FALSE, warning = FALSE, messgae = FALSE}
+```{r leaflet, echo = FALSE, warning = FALSE, message = FALSE}
 
 library(terra)
 library(leaflet)
+library(leaflet.extras2)
 
-#Load web ready data
-suitability_small <- rast("C:/Users/kenzthom.stu/OneDrive - UBC/GIT/E-Portfolio/myData/suitability_web.tif")
-mask_small <- rast("C:/Users/kenzthom.stu/OneDrive - UBC/GIT/E-Portfolio/myData/mask_web.tif")
+#Load web ready data (aggregated x16 and projected to 4326)
+suitability_raw_web <- rast("C:/Users/kenzthom.stu/OneDrive - UBC/GIT/E-Portfolio/myData/suitability_raw_web.tif")
+suitability_final_web <- rast("C:/Users/kenzthom.stu/OneDrive - UBC/GIT/E-Portfolio/myData/suitability_final_web.tif")
 
-#Define Palette
-pal <- colorNumeric(
-  palette = "RdYlGn", # Built-in Red-Yellow-Green
-  domain = values(suitability_small),
+# Define color palettes
+#for raw suitability
+rng_raw <- terra::minmax(suitability_raw_web)
+raw_pal <- colorNumeric(
+  palette = "RdYlGn",
+  domain = rng_raw, 
   na.color = "transparent")
-mask_pal <- colorFactor(palette = "black", domain = values(mask_small), na.color = "transparent")
 
-#Build the Map
-l <- leaflet(width = "100%", height = 600) %>%
-  addProviderTiles("Esri.WorldImagery", group = "Satellite") %>%
-  addProviderTiles("OpenStreetMap", group = "Street Map") %>% # Added a second base map option
+#for classified suitability
+class_levels <- 0:5
+class_labels <- c("Mask",
+                  "Least Suitable",
+                  "Less Suitable",
+                  "Moderately Suitable",
+                  "Suitable",
+                  "Very Suitable")
+
+final_pal <- colorFactor(
+  palette = c("grey", "red", "orange", "yellow", "green", "darkgreen"),
+  domain = class_levels,
+  na.color = "transparent"
+)
+
+#Build leaflet map
+#set up the two map panes
+leaflet() %>%
+  addMapPane("right", zIndex = 1) %>%
+  addMapPane("left",  zIndex = 2) %>%
   
-  #Add Suitability Layer
+#add the ESRI basemap to both map panes
+addProviderTiles("Esri.WorldImagery", group = "base", layerId = "baseid1", options = pathOptions(pane = "right")) %>%
+addProviderTiles("Esri.WorldImagery", group = "base", layerId = "baseid2", options = pathOptions(pane = "left")) %>%
+  
+  # Suitability
   addRasterImage(
-    suitability_small,
-    colors = pal,
-    group = "Suitability" # Labeling this group
-  ) %>%
+    suitability_raw_web,
+    colors = raw_pal,
+    group = "Raw Suitability", #provide name for layer
+    maxBytes = 10 * 1024 * 1024, #allowable size of raster
+    options = leafletOptions(pane = "left")) %>%
   
-  # Add Mask Layer
+  # Mask
   addRasterImage(
-    mask_small,
-    colors = mask_pal,
-    group = "Mask Layer" # Labeling this group
-  ) %>%
+    suitability_final_web,
+    colors = final_pal,
+    group = "Classified Suitability",
+    maxBytes = 10 * 1024 * 1024,
+    options = leafletOptions(pane = "right")) %>%
   
+  # Legend
   addLegend(
-    pal = pal, 
-    values = values(suitability_small),
-    title = "Suitability Score",
-    position = "bottomright",
-    group = "Suitability", # This links the legend to the Suitability layer toggle
-    labFormat = labelFormat(prefix = "")
-  ) %>%
+  position = "bottomright",
+  pal = final_pal,
+  values = class_levels,
+  labels = class_labels,
+  title = "Suitability Class",
+  opacity = 1) %>%
   
-  # Add the Toggle Control
-  addLayersControl(
-    baseGroups = c("Satellite", "Street Map"),
-    overlayGroups = c("Suitability", "Mask Layer"),
-    options = layersControlOptions(collapsed = FALSE) # Keeps the menu open by default
-  ) %>%
+#allow for layers to be toggles on/off by adding them to the layers control
+addLayersControl(overlayGroups = c("Raw Suitability", "Classified Suitability")) %>%
+  
+#add slider control
+addSidebyside(layerId = "sidecontrols",
+                rightId = "baseid1",
+                leftId  = "baseid2",
+                options = list(padding = 0)) %>%
   
   addScaleBar(position = "bottomleft")
 
-l
 ```
