@@ -18,12 +18,12 @@ This analysis was done to support Municipal Transportation Asset Management repo
 **Hierarchical Classification of Road Network:** Open Street Map Highways for North America symbology was applied to North Vancouver's road network, allowing hierarchial classification of roads using a hierarchical code for each OSM 'Highway' category:
 
 | OSM 'Highway' Category | Hierarchy Code |
-|----|----|
+|------------------------------------|------------------------------------|
 | Motoways | 5 |
 | Primary and secondary links | 4 |
 | Residential and tertiary links | 3 |
 | Service roads and living streets | 2 |
-| Corridor, cycleway, foot/pedestrian path, track, and construction | 1 |
+| Corridors, cycleways, foot/pedestrian paths, tracks, and constructions | 1 |
 | Other | 0 |
 
 **ModelBuilder Visual:**
@@ -69,10 +69,7 @@ arcpy.analysis.Buffer(
     line_side="FULL",
     line_end_type="ROUND",
     dissolve_option="NONE",
-    method="PLANAR"
-)
-
-print("Done.")
+    method="PLANAR")
 ```
 
 **Filter and summarize road length:** A SearchCursor was then applied to isolate primary routes and calculate the total combined segment length and buffer area.
@@ -121,11 +118,9 @@ library(leaflet)
 library(dplyr)
 
 #layers
-osm_roads <- suppressMessages(st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/nv_roads_osm_symbolized.shp"))
-
-reclass_roads <- suppressMessages(st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/nv_roads_reclassified.shp"))
-
-buffers <- suppressMessages(st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/major_roads_buffers.shp")) 
+osm_roads <- st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/nv_roads_osm_symbolized.shp", quiet = TRUE)
+reclass_roads <- st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/nv_roads_reclassified.shp", quiet = TRUE)
+buffers <- st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/major_roads_buffers.shp", quiet = TRUE) 
 
 #reproject for leaflet
 osm_roads <- st_transform(osm_roads, 4326)
