@@ -4,7 +4,7 @@ title: "Map Gallery"
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/GEM511_MThomson_Lab3_FinalMap.png)
+![](images/GEM511_MThomson_Lab3_FinalMap.png){width="100%" style="border: 1px solid #eeeeee;"}
 :::
 
 ::: {.column width="5%"}
@@ -21,7 +21,7 @@ This map visualizes the Nahmint watershed and riparian management areas. This an
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/GEM511_Lab2_Map.png)
+![](images/GEM511_Lab2_Map.png){width="100%" style="border: 1px solid #eeeeee;"}
 :::
 
 ::: {.column width="5%"}
@@ -38,7 +38,7 @@ This hydrology based analysis applied network topology to evaluate a capability 
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/PANEL.png)
+![](images/PANEL.png){width="100%" style="border: 1px solid #eeeeee;"}
 :::
 
 ::: {.column width="5%"}
@@ -55,7 +55,7 @@ This layout provides a side-by-side comparison of different spatial interpolatio
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/Lab6_FinalMap.png)
+![](images/Lab6_FinalMap.png){width="100%" style="border: 1px solid #eeeeee;"}
 :::
 
 ::: {.column width="5%"}
@@ -72,7 +72,7 @@ This map represents an accuracy assessment comparing manually digitized building
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/GEM510_Lab5_MThomson_LCPAnalysisMap.png)
+![](images/GEM510_Lab5_MThomson_LCPAnalysisMap.png){width="100%" style="border: 1px solid #eeeeee;"}
 :::
 
 ::: {.column width="5%"}
@@ -89,7 +89,7 @@ This analysis determines the most efficient routes for Grizzly Bears across a co
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/GEM510_Lab3_OGmap.png)
+![](images/GEM510_Lab3_OGmap.png){width="100%" style="border: 1px solid #eeeeee;"}
 :::
 
 ::: {.column width="5%"}

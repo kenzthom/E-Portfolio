@@ -1,43 +1,43 @@
 ---
-title: "GIS-MCDA Site Suitability Analysis for Solar Farms in British Columbia, Canada"
+title: "Strategic Solar Farm Site Selection: A GIS-MCDA Approach"
 image: "Cover_Page_yellow.png" 
 ---
 
-This project evaluates potential locations for utility-scale (1MW+) solar farm development using a GIS-based multi-criteria decision analysis (MCDA). The study integrates environmental, technical, and economic considerations to identify areas most suitable for solar farm development. Data incorporated into the mask layer includes:
+This project utilizes Multi-Criteria Decision Analysis (MCDA) to evaluate potential locations for utility-scale (1MW+) solar development across British Columbia. By integrating environmental, technical, and economic variables, the study identifies optimal development zones while strictly adhering to provincial land-use regulations.
 
--   *Agriculture Land Reserve (ALR)*
+## **The Suitability Framework**
 
--   *Water bodies*
+The model balances development potential against conservation priorities through a weighted overlay of key criteria:
 
--   *Wetlands (treed and non-treed)*
+| Technical & Economic Drivers | Environmental & Regulatory Constraints |
+|---------------------------------------------|---------------------------|
+| *Solar Power: Global Horizontal Irradiance (GHI)* | *Terrain Constraints: Water Bodies, Wetlands, Permanent Snow and Ice* |
+| *Terrain: Slope and aspect optimization* | *Regulatory: Agricultural Land Reserve (ALR), Protected and Conserved Areas* |
+| *Infrastructure: Proximity to Substations and Major Roads* | *Land Cover: Dense Forests (Canopy\>40%), Artificial/Built Environments* |
+| *Demand: Proximity to Major Cities* | *Buffers: Roads (100m) and urban (1000m) setback* |
 
--   *Permanent snow and ice*
+## **Technical Workflow & Implementation**
 
--   *Dense forests – canopy cover \> 40%*
+To translate these diverse datasets into a unified suitability model, I developed a custom end-to-end spatial workflow in R:
 
--   *Artificial/build environments*
+-   Data Harmonization: Standardized heterogeneous datasets—ranging from vector land-use boundaries to raster-based solar irradiance—into a common 30m grid aligned with the BC Environmental Albers (EPSG:3005) projection.
 
--   *Protected and conserved areas*
+-   Constraint Modeling: Programmatically generated exclusion masks for protected areas, high-canopy forests, and hydrologic features, applying precise Euclidean distance buffers for urban and infrastructure setbacks.
 
--   *Buffers around roads (100m) and major cities (1000m)*
+-   Criteria Weight Derivation: Employed the Analytic Hierarchy Process to derive objective influence weights using relative importance ratings from industry experts. By constructing a pairwise comparison matrix and calculating the principal eigenvector, I ensured a Consistency Ratio (CR) \< 0.1, mathematically validating the relative importance of solar potential versus technical constraints.
 
-Data incorporated as suitability criterion in the Analytically Hierarchical Process (AHP):
+-   Weighted Overlay Analysis: Integrated the AHP-derived weights into a multi-criteria scoring system. This reclassified model input criteria into a common scale, allowing for the quantitative comparison of technical potential against environmental sensitivity.
 
--   *Global Horizontal Irradiance (GHI)*
+**Calculated Suitability Weights**
 
--   *Proximity to major roads*
-
--   *Proximity to major cities*
-
--   *Proximity to existing energy infrastructure (substations)*
-
--   *Slope*
-
--   *Aspect*
-
-Using spatial analysis and weighted overlay techniques, I produced a suitability model that highlights optimal locations while minimizing environmental and land-use conflicts. All processing was completed in R at a spatial resolution of 30m in the BC Environmental Albers CRS (EPSG:3005). Aggregation to a spatial resolution of 1km and re-projection to WGS84 has been undergone for web-publishing.
-
-The project demonstrates the application of geospatial tools to renewable energy planning and supports data-driven decision-making for sustainable infrastructure development.
+| Criterion | Derived Weight | Primary Justification |
+|---------------------|------------------------------|---------------------|
+| Global Horizontal Irradiance (GHI) | 26.8 | The fundamental driver of project energy generation potential |
+| Proximity to Energy Infrastructure | 25.9 | Influence on grid optimization and installation costs |
+| Proximity to Major Roads | 24.8 | Increases site accessibility and facilitates construction |
+| Aspect | 10.1 | Effects solar radiation incidence |
+| Proximity to Major Cities | 9.0 | Benefits of reduced distribution costs are moderated by social preference for developments away from population centers |
+| Slope | 3.3 | Simplified installation process on gentle terrain |
 
 ## Interactive Suitability Map
 
@@ -123,3 +123,26 @@ addSidebyside(layerId = "sidecontrols",
   addScaleBar(position = "bottomleft")
 
 ```
+
+## Aspatial Results
+
+:::::: columns
+::: {.column width="48%"}
+![Suitability Distribution Across BC’s Total Land Base](images/SuitDistribution_percent_v2.png)
+
+76.5% (723,947.99 km²) of BC is restricted from solar farm development. Non-restricted land\
+accounts for the remaining 23.55% (223,027.33 km²) of the province. Within this area, class 1\
+comprises 3.86% of the provincial land base, class 2 represents the largest share at 16.21%, and\
+class 3 accounts for 3.25%. The highest suitability classes occupy only a very small portion of the\
+province, with class 4 covering 0.21% and class 5 covering just 0.005%.
+:::
+
+::: {.column width="4%"}
+:::
+
+::: {.column width="48%"}
+![Areal Extent Occupied Per Suitability Class](images/SuitDistribution_area_v2.png)
+
+Areal extent (km^2^) of each suitability class within the non-restricted land base. Class 2 occupies the largest area at 153,533.01 km^2^, while class 5 occupies the smallest area at 51.50km^2^. Class 1, 3, and 4 occupy varying areas and comprise the remaining 69,477.23 km^2^ of land available for solar farm installations.
+:::
+::::::

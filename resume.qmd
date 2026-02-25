@@ -1,8 +1,8 @@
 ---
-title: "Resume"
+title: "Mackenzie Thomson | CV"
 ---
 
-# **Education**
+## Education
 
 -   **The University of British Columbia Vancouver** *Masters of Geomatics for Environmental Management (MGEM)*
 
@@ -16,7 +16,7 @@ title: "Resume"
 
     Concentration: Earth Sciences, ESRI ArcGIS Products
 
-# Teaching Assistantships
+## Teaching Assistantships
 
 -   **The University of British Columbia** *Geomatics for Natural Resource Management Laboratory Teaching Assistant*
 
@@ -28,9 +28,9 @@ title: "Resume"
 
     August 2020 – December 2020
 
-    Co-created engaging lesson plans that integrated real-world environmental issues. Provided individualized guidance to students during labs to deepen their understanding of scientific concepts and procedures. Managed assignment and exam grading with accuracy and consistency
+    Co-created engaging lesson plans that integrated real-world environmental issues. Provided individualized guidance to students during labs to deepen their understanding of scientific concepts and procedures. Managed assignment and exam grading with accuracy and consistency.
 
-# **Relevant Work Experience**
+## Relevant Work Experience
 
 -   **Chartwell Resource Group Ltd.** *Jr. Forestry Field Technician*
 
@@ -38,17 +38,17 @@ title: "Resume"
 
     Collected, analyzed, and mapped data on tree stands to manage forest vegetation health, growth, and natural resources. Designed and established GPS-marked harvest block boundaries and access roads. Utilized ArcGIS Field Maps, QGIS and RoadEng for effective data visualizations that support informed decision making. Supported the execution of hydro-based capital projects.  
 
--   **The City of Vancouver** *Assistant Wildlife Technician*
+-   The City of Vancouver *Assistant Wildlife Technician*
 
     April 2023 – December 2023
 
     Assisted in developing and implementing the Park Board’s Canada Goose Management Plan. Conducted field surveys to monitor population, habitat use, and behavior. 2 Leveraged data collected in ArcGIS FieldMaps to inform management strategies. Collaborated with local stakeholders to ensure effective wildlife management.
 
-# Reports
+## Reports
 
 -   (Eventually...) **GIS-Based Site Suitability Analysis for Solar Farms in British Columbia, Canada**
 
-# Awards & Honors
+## Awards & Honors
 
 -   **Dean’s List, The University of British Columbia**
 
@@ -62,7 +62,7 @@ title: "Resume"
 
     Achieved September 2018 – May 2023
 
-# Institutional Service
+## Institutional Service
 
 -   **The Hive** *Bouldering Instructor*
 
@@ -70,7 +70,7 @@ title: "Resume"
 
     Taught beginner through advanced bouldering techniques to diverse groups, fostering skill development, safety awareness, and a supportive environment. Designed tailored training programs, accommodating various skill levels and learning styles.
 
-# Professional Certifications
+## Professional Certifications
 
 -   OFA1 – First Aid & CPR/AED Level
 

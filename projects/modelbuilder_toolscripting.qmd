@@ -118,9 +118,9 @@ library(leaflet)
 library(dplyr)
 
 #layers
-osm_roads <- st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/nv_roads_osm_symbolized.shp", quiet = TRUE)
-reclass_roads <- st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/nv_roads_reclassified.shp", quiet = TRUE)
-buffers <- st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/major_roads_buffers.shp", quiet = TRUE) 
+osm_roads <- suppressMessages(st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/nv_roads_osm_symbolized.shp", quiet = TRUE))
+reclass_roads <- suppressMessages(st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/nv_roads_reclassified.shp", quiet = TRUE))
+buffers <- suppressMessages(st_read("C:/MGEM/BCIT/Labs/GIST8138/Module3_ScriptTools/Data/major_roads_buffers.shp", quiet = TRUE))
 
 #reproject for leaflet
 osm_roads <- st_transform(osm_roads, 4326)
