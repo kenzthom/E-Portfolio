@@ -3,26 +3,26 @@ title: "Site Suitability Model for Utility Scale Solar Farms in BC"
 image: "Cover_Page_yellow.png" 
 ---
 
-This project utilizes Multi-Criteria Decision Analysis (MCDA) to evaluate potential locations for utility-scale (1MW+) solar development across British Columbia. By integrating environmental, technical, and economic variables, the study identifies optimal development zones while strictly adhering to provincial land-use regulations.
+This project utilizes the Analytic Hierarchy Process (AHP), a Multi-Criteria Decision Analysis (MCDA) framework, to evaluate potential locations for utility-scale (1MW+) solar development across British Columbia. By integrating environmental, technical, and economic variables, the study identifies optimal development zones while strictly adhering to provincial land-use regulations.
 
 ## **The Suitability Framework**
 
-The model balances development potential against conservation priorities through a weighted overlay of key criteria:
+The model balances development potential against environmental constraints through a weighted overlay of key criteria:
 
 | Technical & Economic Drivers | Environmental & Regulatory Constraints |
 |------------------------------------|------------------------------------|
-| *Solar Power: Global Horizontal Irradiance (GHI)* | *Terrain Constraints: Water Bodies, Wetlands, Permanent Snow and Ice* |
-| *Terrain: Slope and aspect optimization* | *Regulatory: Agricultural Land Reserve (ALR), Protected and Conserved Areas* |
-| *Infrastructure: Proximity to Substations and Major Roads* | *Land Cover: Dense Forests (Canopy\>40%), Artificial/Built Environments* |
-| *Demand: Proximity to Major Cities* | *Buffers: Roads (100m) and urban (1000m) setback* |
+| Solar Power: Global Horizontal Irradiance (GHI) | Terrain Constraints: Water Bodies, Wetlands, Permanent Snow and Ice |
+| Terrain: Slope and aspect optimization | Regulatory: Agricultural Land Reserve (ALR), Protected and Conserved Areas |
+| Infrastructure: Proximity to Substations and Major Roads | Land Cover: Dense Forests (Canopy\>40%), Artificial/Built Environments |
+| Demand: Proximity to Major Cities | Buffers: Roads (100m) and urban (1000m) setback |
 
 ## **Technical Workflow & Implementation**
 
-To translate these diverse datasets into a unified suitability model, I developed a custom end-to-end spatial workflow in R:
+To translate these diverse datasets into a unified suitability model, I developed a custom spatial workflow in R involving these key steps:
 
--   Data Harmonization: Standardized heterogeneous datasets—ranging from vector land-use boundaries to raster-based solar irradiance—into a common 30m grid aligned with the BC Environmental Albers (EPSG:3005) projection.
+-   Data Harmonization: Standardized heterogeneous datasets into a common 30m grid aligned with the BC Environmental Albers (EPSG:3005) projection.
 
--   Constraint Modeling: Programmatically generated exclusion masks for protected areas, high-canopy forests, and hydrologic features, applying precise Euclidean distance buffers for urban and infrastructure setbacks.
+-   Constraint Modeling: Programmatically generated unified exclusion mask for protected areas, high-canopy forests, and unsuitable terrain, applying precise Euclidean distance buffers for urban and infrastructure setbacks.
 
 -   Criteria Weight Derivation: Employed the Analytic Hierarchy Process to derive objective influence weights using relative importance ratings from industry experts. By constructing a pairwise comparison matrix and calculating the principal eigenvector, I ensured a Consistency Ratio (CR) \< 0.1, mathematically validating the relative importance of solar potential versus technical constraints.
 
