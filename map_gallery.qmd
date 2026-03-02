@@ -1,10 +1,30 @@
 ---
 title: "Map Gallery"
+lightbox: true 
 ---
+
+#### Click any map to view full size!
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/GEM511_MThomson_Lab3_FinalMap.png){width="100%" style="border: 1px solid #eeeeee;"}
+![](images/GEM511_MThomson_Lab4Map_v2.png){width="100%" style="border: 1px solid #eeeeee;" lightbox="true"}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+### Fuel Related Variable Prediction in a Post-Burn Scenario Using Machine Learning
+
+This map displays the prediction of crown closure and fuel type using the random forest algorithm. The analysis included experimenting with different predictor variables, sampling types (random, stratified, fixed point), and algorithm parameters. An evaluation of model performance was done to determine the best model and produce the resulting surfaces.
+:::
+::::::
+
+<br>
+
+:::::: columns
+::: {.column width="55%"}
+![](images/GEM511_MThomson_Lab3_FinalMap.png){width="100%" style="border: 1px solid #eeeeee;" lightbox="true"}
 :::
 
 ::: {.column width="5%"}
@@ -13,7 +33,7 @@ title: "Map Gallery"
 ::: {.column width="40%"}
 ### Terrain and Riparian Management Area Analysis
 
-This map visualizes the Nahmint watershed and riparian management areas. This analysis mapped the stream network using a DEM and extracted stream characteristics to quantify riparian reserve and management zones buffers.
+This map visualizes the Nahmint watershed and riparian management areas. This analysis involved mapping the stream network using a DEM and extracting stream characteristics (order, gradient, fish bearing potential) to quantify appropriate riparian reserve and management zones buffers.
 :::
 ::::::
 
@@ -21,7 +41,7 @@ This map visualizes the Nahmint watershed and riparian management areas. This an
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/GEM511_Lab2_Map.png){width="100%" style="border: 1px solid #eeeeee;"}
+![](images/GEM511_Lab2_Map.png){width="100%" style="border: 1px solid #eeeeee;" lightbox="true"}
 :::
 
 ::: {.column width="5%"}
@@ -30,7 +50,7 @@ This map visualizes the Nahmint watershed and riparian management areas. This an
 ::: {.column width="40%"}
 ### Salmon Stream Network Analysis
 
-This hydrology based analysis applied network topology to evaluate a capability model of salmon habitat along stream segments using linear referencing. This allowed reachable upstream salmon habitat to be visualized and quantified.
+This hydrology based analysis applied network topology to evaluate a capability model of salmon habitat along stream segments using linear referencing and barriers. Accessible and inaccessible salmon habitat was then visualized and quantified.
 :::
 ::::::
 
@@ -38,7 +58,7 @@ This hydrology based analysis applied network topology to evaluate a capability 
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/PANEL.png){width="100%" style="border: 1px solid #eeeeee;"}
+![](images/PANEL.png){width="100%" style="border: 1px solid #eeeeee;" lightbox="true"}
 :::
 
 ::: {.column width="5%"}
@@ -47,7 +67,7 @@ This hydrology based analysis applied network topology to evaluate a capability 
 ::: {.column width="40%"}
 ### Spatial Interpolation and Visualization of LiDAR Data
 
-This layout provides a side-by-side comparison of different spatial interpolation algorithms. Zonal statistics present differences between elevation and slope rasters produced with Spline, Nearest Neighbour, and Kriging.
+This layout provides a side-by-side comparison of different spatial interpolation algorithms. Zonal statistics present differences in mean and standard deviation between elevation and slope rasters produced with Spline, Nearest Neighbour, and Kriging across three different terrain zones.
 :::
 ::::::
 
@@ -55,7 +75,7 @@ This layout provides a side-by-side comparison of different spatial interpolatio
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/Lab6_FinalMap.png){width="100%" style="border: 1px solid #eeeeee;"}
+![](images/Lab6_FinalMap.png){width="100%" style="border: 1px solid #eeeeee;" lightbox="true"}
 :::
 
 ::: {.column width="5%"}
@@ -64,7 +84,7 @@ This layout provides a side-by-side comparison of different spatial interpolatio
 ::: {.column width="40%"}
 ### Manual Digitization Accuracy Assessment
 
-This map represents an accuracy assessment comparing manually digitized building footprints to reference data. Kart was utilized for spatial version control.
+This map presents an accuracy assessment and visual comparison of manually digitized building footprints to reference data. Kart was utilized for spatial version control.
 :::
 ::::::
 
@@ -72,7 +92,7 @@ This map represents an accuracy assessment comparing manually digitized building
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/GEM510_Lab5_MThomson_LCPAnalysisMap.png){width="100%" style="border: 1px solid #eeeeee;"}
+![](images/GEM510_Lab5_MThomson_LCPAnalysisMap.png){width="100%" style="border: 1px solid #eeeeee;" lightbox="true"}
 :::
 
 ::: {.column width="5%"}
@@ -89,7 +109,7 @@ This analysis determines the most efficient routes for Grizzly Bears across a co
 
 :::::: columns
 ::: {.column width="55%"}
-![](images/GEM510_Lab3_OGmap.png){width="100%" style="border: 1px solid #eeeeee;"}
+![](images/GEM510_Lab3_OGmap.png){width="100%" style="border: 1px solid #eeeeee;" lightbox="true"}
 :::
 
 ::: {.column width="5%"}

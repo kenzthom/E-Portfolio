@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-*I’ll reply as soon as I’m back from the field or trails.*
+Please feel free to reach out with any questions, project ideas, or just to say hello! I’m always open to discussing new opportunities and love connecting with like-minded people.
 
 [LinkedIn](https://www.linkedin.com/in/mackenzie-thomson-455828253/){.btn .btn-primary} [GitHub](https://github.com/kenzthom){.btn .btn-primary} [Email](mailto:kenzthom@student.ubc.ca){.btn .btn-primary}
 

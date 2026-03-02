@@ -1,0 +1,251 @@
+---
+title: "Time Series Analyses using Satellite Imagery"
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+image: "landuse_Cover.png"
+---
+
+Time series analysis are powerful due to their capabilities in predicting future trends based on historical patterns. Moving beyond static analysis enables proactive decision making and better resource planning. Two separate time series analysis were undergone:
+
+## NDVI Time-Series Analysis in Yellowhead Country, AB
+
+With NDVI data from the MODIS imagery (MOD13Q1), a time series analysis from 2001 to 2020 was completed. The BFAST change detection algorithm was used to determine NDVI deviation from the expected pattern over two different areas of interest. Examining the evolution of NDVI after each break, allowed informed predictions about the cause of each break to be made.
+
+Check out some code snippets:
+
+::: {.callout-note collapse="true"}
+## Process MODIS imagery and generate NDVI summary
+
+```         
+(1)list files
+flist <- list.files("data/MOD13Q1_TS",
+pattern = "tif$",
+full.names = TRUE)
+
+(2)extract date
+fname <- basename(flist)
+date_ts <- str_extract(fname, pattern = "A[0-9]{7}")
+date_ts[1:5]
+
+(3)convert to date format
+date_ts <- lubridate::as_date(date_ts, format = "%Y%j")
+date_ts[1:5]
+
+(4)make df storing dates
+ts <- data.frame(date_ts, year(date_ts))
+ts <- rename(ts, c("year" = "year.date_ts."))
+
+(5)summarise number of files per year
+ts_summ <- ts %>%
+group_by(year) %>%
+count(year)
+
+(6)calculate median NDVI of each pixel throughout entire ts
+ndvi_ts <- rast(flist)
+names(ndvi_ts) <- date_ts
+ndvi_ts_med <- app(ndvi_ts,
+fun = "median",
+na.rm = TRUE)
+
+(7) extract average NDVI for each ROI for each layer in ts
+ndvi_roi <- terra::extract(ndvi_ts, vect(aoi), fun = mean, na.rm = TRUE)
+
+(8) create ndvi summary
+ndvi_roi_long <- pivot_longer(ndvi_roi, cols = 2:ncol(ndvi_roi), names_to = "name"", values_to = "ndvi")
+ndvi_roi_summary <- ndvi_roi_long %>%
+filter(name >= ymd("2001-01-01") & name <= ymd("2006-12-19")) %>%
+filter(month(name) == 5:9) %>%
+group_by(month = month(name)) %>% #add year = year(name), to get year included in summary
+summarise(mean_ndvi = mean(ndvi, na.rm = TRUE))
+```
+:::
+
+::: {.callout-note collapse="true"}
+## Apply BFAST change detection algorithm
+
+```         
+(1)seperate aoi a and b
+ndvi_roi_A <- ndvi_roi_long %>%
+filter(ID == 1, na.rm = TRUE)
+ndvi_roi_B <- ndvi_roi_long %>%
+filter(ID == 2, na.rm = TRUE)
+
+(2)convert to ts
+A_ts <- ts(ndvi_roi_A$ndvi, frequency = 23, start = 2001-01-01)
+B_ts <- ts(ndvi_roi_B$ndvi, frequency = 23, start = 2001-01-01)
+
+(3)run bfast
+bfm_A <- bfast::bfastmonitor(A_ts, start = c(2008, 1))
+plot(bfm_A)
+
+bfm_B <- bfast::bfastmonitor(B_ts, start = c(2006, 1))
+plot(bfm_B)
+```
+:::
+
+### Visual Results
+
+:::::: columns
+::: {.column width="55%"}
+![](/images/bfastB.png){style="border: 1px solid #eeeeee;"}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+### Change Detection for Area A
+
+A break in expected NDVI pattern occurred in 2009. Due to the sustained decreased NDVI values, a land use change from forest to agriculture was predicted.
+:::
+::::::
+
+:::::: columns
+::: {.column width="55%"}
+![](/images/bfastA.png){style="border: 1px solid #eeeeee;"}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+### Change Detection for Area B
+
+A break in expected NDVI values occurred in 2006. Due to the gradual return of seasonally cyclic NDVI values after the break, a disturbance such as harvesting, fire, or insect outbreak was predicted to cause the change.
+:::
+::::::
+
+## Land Use Change Time-Series Analysis in Williams Lake, BC
+
+With Landsat imagery, a time series analysis from 1984 to 2016 was completed to detect changes in land use resulting from forest management. The aim was to examine the evolution if total forested area through time, balancing loss from harvesting and gain from regeneration.
+
+Check out some code snippets:
+
+::: {.callout-note collapse="true"}
+## Process Landsat imagery
+
+```         
+(1) list files
+flist_vlce <- flist <- list.files("data/VLCE_TS",
+pattern = "tif$",
+full.names = TRUE)
+
+(2) extract years and rename raster based on their year 
+year_ts <- str_extract(flist_vlce, pattern = "[0-9]{4}")
+vlce_ts <- rast(flist_vlce)
+names(vlce_ts) <- years_ts
+
+(3) visualize first and last year
+plot(c(vlce_ts$`1984`, vlce_ts$`2016`)
+```
+:::
+
+::: {.callout-note collapse="true"}
+## Quantify and visualize forest gain and loss
+
+```         
+(1) reclassify imagery time series into binary forested/non-forested series
+lc_reclass[] <- lapply(lc_reclass, as.numeric)
+lc_matrix <- as.matrix(lc_reclass) #convert to matrix
+lc_matrix <- lc_matrix[ ,2:3] #drop first column
+ts_forested <- terra::classify(vlce_ts, lc_matrix, include.lowest = TRUE)
+
+(2) compute difference between years
+ts_forested_lag <- terra::diff(ts_forested, lag = 1)
+
+(3) calculate change in forest area
+ts_df <- as.data.frame(ts_forested_lag)
+df_long <- ts_df %>%
+pivot_longer(cols = everything(), names_to = "year", values_to = "value")
+
+#summarise gain and loss per year
+cell_area_ha <- 0.09
+forest_gain <- df_long %>%
+group_by(year) %>%
+filter(value == 1) %>%
+summarise(n_cells_gain = n()) %>%
+mutate(area_gain_ha = n_cells_gain * cell_area_ha)
+
+forest_loss <- df_long %>%
+group_by(year) %>%
+filter(value == -1) %>%
+summarise(n_cells_loss = n()) %>%
+mutate(area_loss_ha = n_cells_loss * cell_area_ha)
+
+(5)combine to determine net change
+forest_change <- forest_gain %>%
+left_join(forest_loss, by = "year") %>%
+mutate(net_change_ha = area_gain_ha - area_loss_ha)
+
+#arrange by year and ensure numeric for plotting
+forest_change <- forest_change %>%
+arrange(year) %>%
+mutate(year = as.numeric(year))
+
+(6) plot net change in forest area per year 
+ggplot(forest_change, aes(x = year, y = net_change_ha)) +
+#geom_point() +
+geom_line() +
+theme_classic() +
+geom_abline(slope = 0, intercept = 0, linetype = "dashed") +
+labs(
+title = "Yearly Net Forest Area Change",
+y = "Change in forested area (ha)",
+x = "Year") +
+scale_x_continuous(breaks = seq(min(forest_change$year), max(forest_change$year), by = 1)) +
+theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
+
+(7) plot gain and loss over time
+#great new column with both changes
+total_change <- forest_change %>%
+pivot_longer(cols = c(area_gain_ha, area_loss_ha), names_to = "change_type", values_to = "area") %>%
+mutate()
+
+ggplot(total_change, aes(x = year, y = area, fill = change_type)) +
+geom_col() +
+theme_classic() +
+scale_x_continuous(breaks = seq(min(forest_change$year), max(forest_change$year), by = 1)) +
+theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) +
+scale_y_symmetric() +
+labs(
+title = "Yearly Net Forest Area Change",
+y = "Change in forested area (ha)",
+x = "Year",
+fill = "Change Type") +
+scale_fill_discrete(labels = c("area_loss_ha" = "Loss", "area_gain_ha" = "Gain"))
+```
+:::
+
+### Visual Results
+
+:::::: columns
+::: {.column width="55%"}
+![](/images/forestchange.png){style="border: 1px solid #eeeeee;"}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+### Yearly Net Forest Change in Hectares Across Time-Series
+
+Two prominent events of net forest change are seen. Forest gain is largely concentrated in the early 1990's, while loss is dominated in 2004.
+:::
+::::::
+
+:::::: columns
+::: {.column width="55%"}
+![](/images/gainloss.png){style="border: 1px solid #eeeeee;"}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+### Forest Gain and Loss Quantified Across Time Series
+
+Individual gain and loss shown per year. Prominent gain can be seen in the early 1990's while prominent loss can be see in the early 2000's. Year to year variable can be seen throughout.
+:::
+::::::

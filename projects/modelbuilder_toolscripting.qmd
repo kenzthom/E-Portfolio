@@ -3,7 +3,9 @@ title: "Leveraging ModelBuilder and Script Tools for Spatial Analysis of North V
 image: "RoadsImage_cover.png"
 ---
 
-This analysis was done to support Municipal Transportation Asset Management reporting using ArcGIS Pro ModelBuilder and Python Scripting.
+This project demonstrates an integrated GIS workflow designed to support Municipal Transportation Asset Management reporting for the City and District of North Vancouver. By combining the visual logic of ArcGIS Pro ModelBuilder with Python (ArcPy) scripting, this analysis automates the classification and spatial quantification of road networks.
+
+The primary objective was to transform raw OpenStreetMap (OSM) data into a structured hierarchy, enabling automated variable-distance buffering and summaries of specific road types. This hybrid approach provides a scalable framework for calculating essential infrastructure metrics, such as total segment lengths and buffer areas for primary transit corridors.
 
 ## Data
 
@@ -15,7 +17,7 @@ This analysis was done to support Municipal Transportation Asset Management repo
 
 ## Workflow
 
-**Hierarchical Classification of Road Network:** Open Street Map Highways for North America symbology was applied to North Vancouver's road network, allowing hierarchial classification of roads using a hierarchical code for each OSM 'Highway' category:
+**Hierarchical Classification of Road Network:** Open Street Map Highways for North America symbology was applied to North Vancouver's road network, allowing hierarchical classification of roads using a hierarchical code for each OSM 'Highway' category:
 
 | OSM 'Highway' Category | Hierarchy Code |
 |------------------------------------|------------------------------------|

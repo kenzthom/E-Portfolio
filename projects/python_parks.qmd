@@ -9,7 +9,7 @@ image: "py_parks_cover.png"
 
 Species at risk (SAR), particularly those with specialized habitat requirements, are highly vulnerable to landscape change driven by human activity and development. Protected areas are intended to mitigate these pressures by conserving critical habitats and maintaining biodiversity. However, while national parks encompass a range of ecosystems, certain habitats essential to SAR may be underrepresented within park boundaries and therefore inadequately protected. This national-scale analysis evaluates which SAR occur within Canadian national parks and assesses whether their associated habitats are sufficiently represented. For this study, the analysis focused on terrestrial mammals, with all data processing conducted in Python using Pandas, GeoPandas, and Matplotlib.
 
-Created with: Kenzie Stevenson, Asiya Rizva
+Project Co-creators: Kenzie Stevenson, Asiya Rizva
 
 # Data
 
@@ -20,6 +20,8 @@ Created with: Kenzie Stevenson, Asiya Rizva
 -   GBIF (Global Biodiversity Information Facility) Species Occurrence Data
 
 # **Objective 1:** Identify the spatial occurrence of species at risk in Canadian National Parks
+
+Click the drop downs to view code
 
 ::: {.callout-note collapse="true"}
 ## Clean SAR data
@@ -110,6 +112,8 @@ for TARGET_SP in tar_species:
 ![Terrestrial mammals occurrence data plotting within Canadian Parks using GBIF and SAR Registry.](/images/SAR_parks.png){width="583"}
 
 # **Objective 2** Analyze conservation value of the National Parks
+
+Click the drop downs to view code
 
 ::: {.callout-note collapse="true"}
 ## Calculate index that represents conservation value of each park
@@ -305,6 +309,8 @@ The top 5 parks with highest conservation value are
 :::::
 
 # **Objective 3:** Identify species with underrepresented habitat in parks
+
+Click the drop downs to view code
 
 ::: {.callout-note collapse="true"}
 ## Use point buffer as indicator of species core habitat

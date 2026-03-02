@@ -1,5 +1,5 @@
 ---
-title: "Strategic Solar Farm Site Selection: A GIS-MCDA Approach"
+title: "Site Suitability Model for Utility Scale Solar Farms in BC"
 image: "Cover_Page_yellow.png" 
 ---
 
@@ -10,7 +10,7 @@ This project utilizes Multi-Criteria Decision Analysis (MCDA) to evaluate potent
 The model balances development potential against conservation priorities through a weighted overlay of key criteria:
 
 | Technical & Economic Drivers | Environmental & Regulatory Constraints |
-|---------------------------------------------|---------------------------|
+|------------------------------------|------------------------------------|
 | *Solar Power: Global Horizontal Irradiance (GHI)* | *Terrain Constraints: Water Bodies, Wetlands, Permanent Snow and Ice* |
 | *Terrain: Slope and aspect optimization* | *Regulatory: Agricultural Land Reserve (ALR), Protected and Conserved Areas* |
 | *Infrastructure: Proximity to Substations and Major Roads* | *Land Cover: Dense Forests (Canopy\>40%), Artificial/Built Environments* |
@@ -31,7 +31,7 @@ To translate these diverse datasets into a unified suitability model, I develope
 **Calculated Suitability Weights**
 
 | Criterion | Derived Weight | Primary Justification |
-|---------------------|------------------------------|---------------------|
+|-----------------------|---------------|----------------------------------|
 | Global Horizontal Irradiance (GHI) | 26.8 | The fundamental driver of project energy generation potential |
 | Proximity to Energy Infrastructure | 25.9 | Influence on grid optimization and installation costs |
 | Proximity to Major Roads | 24.8 | Increases site accessibility and facilitates construction |

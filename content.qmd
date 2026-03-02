@@ -1,9 +1,9 @@
 ---
-title: "Content & Deliverables"
+title: "Projects"
 listing:
   contents: projects         
   type: grid                
   grid-columns: 2            
 ---
 
-Here you can find a collection of my work throughout the MGEM program. Click on a card to explore the projects and interactive results.
+Here you can find a collection of my work throughout the MGEM program. Click on a card to explore the projects and interactive results!
