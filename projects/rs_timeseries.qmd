@@ -7,11 +7,11 @@ format:
 image: "landuse_Cover.png"
 ---
 
-Time series analysis are powerful due to their capabilities in predicting future trends based on historical patterns. Moving beyond static analysis enables proactive decision making and better resource planning. Two separate time series analysis were undergone:
+Time series analysis is powerful due to its capabilities in predicting future trends based on historical patterns. Moving beyond static analysis enables proactive decision making and better resource planning. Two separate time series analyses were explored:
 
 ## NDVI Time-Series Analysis in Yellowhead Country, AB
 
-With NDVI data from the MODIS imagery (MOD13Q1), a time series analysis from 2001 to 2020 was completed. The BFAST change detection algorithm was used to determine NDVI deviation from the expected pattern over two different areas of interest. Examining the evolution of NDVI after each break, allowed informed predictions about the cause of each break to be made.
+With NDVI data from the MODIS imagery (MOD13Q1), a time series analysis from 2001 to 2020 was completed. The BFAST change detection algorithm was used to determine NDVI deviation from the expected pattern over two different areas of interest. Examining the evolution of NDVI after each break allowed informed predictions to be made about the cause of each break.
 
 Check out some code snippets:
 
@@ -98,7 +98,7 @@ plot(bfm_B)
 ::: {.column width="40%"}
 ### Change Detection for Area A
 
-A break in expected NDVI pattern occurred in 2009. Due to the sustained decreased NDVI values, a land use change from forest to agriculture was predicted.
+A break in the expected NDVI pattern occurred in 2009. Due to the sustained decreased NDVI values in the years following the break, a land use change from forest to agriculture was predicted.
 :::
 ::::::
 
@@ -119,7 +119,7 @@ A break in expected NDVI values occurred in 2006. Due to the gradual return of s
 
 ## Land Use Change Time-Series Analysis in Williams Lake, BC
 
-With Landsat imagery, a time series analysis from 1984 to 2016 was completed to detect changes in land use resulting from forest management. The aim was to examine the evolution if total forested area through time, balancing loss from harvesting and gain from regeneration.
+With Landsat imagery, a time series analysis from 1984 to 2016 was completed to detect changes in land use resulting from forest management. The aim was to examine the evolution of total forested area through time, balancing loss from harvesting with gain from regeneration.
 
 Check out some code snippets:
 
@@ -231,7 +231,7 @@ scale_fill_discrete(labels = c("area_loss_ha" = "Loss", "area_gain_ha" = "Gain")
 ::: {.column width="40%"}
 ### Yearly Net Forest Change in Hectares Across Time-Series
 
-Two prominent events of net forest change are seen. Forest gain is largely concentrated in the early 1990's, while loss is dominated in 2004.
+Two prominent events of net forest change are seen. Net forest gain is largely concentrated in the early 1990's, while net forest loss dominates in 2004.
 :::
 ::::::
 
@@ -246,6 +246,6 @@ Two prominent events of net forest change are seen. Forest gain is largely conce
 ::: {.column width="40%"}
 ### Forest Gain and Loss Quantified Across Time Series
 
-Individual gain and loss shown per year. Prominent gain can be seen in the early 1990's while prominent loss can be see in the early 2000's. Year to year variable can be seen throughout.
+Individual gain and loss per hectare is shown per year. Prominent gain can be seen in the early 1990's while prominent loss can be see in the early 2000's. Year to year changes in forest area can be seen throughout the time series.
 :::
 ::::::

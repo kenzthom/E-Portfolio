@@ -20,7 +20,7 @@ The primary objective was to transform raw OpenStreetMap (OSM) data into a struc
 **Hierarchical Classification of Road Network:** Open Street Map Highways for North America symbology was applied to North Vancouver's road network, allowing hierarchical classification of roads using a hierarchical code for each OSM 'Highway' category:
 
 | OSM 'Highway' Category | Hierarchy Code |
-|------------------------------------|------------------------------------|
+|----|----|
 | Motoways | 5 |
 | Primary and secondary links | 4 |
 | Residential and tertiary links | 3 |

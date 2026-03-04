@@ -3,7 +3,7 @@ title: "Individual Tree Segmentation using LiDAR Data from Malcolm Knapp Researc
 image: "ITS_Cover.png"
 ---
 
-Individual tree segmentation is a cornerstone of modern forestry, transforming how we monitor and manage forest ecosystems. By enabling automated analysis at the single-tree level, this technique provides precise estimates of vital structural parameters (biomass and carbon stocks) that would otherwise require time and labor intensive fieldwork. Ultimately, these insights empower more informed and sustainable forest management. For this study, the lidR package was used to evaluate two primary segmentation methods on four different plots within the Malcolm Knapp Research Forest in British Columbia. Point cloud normalization and filtering was completed prior to segmentation using a point-cloud derived Digital Elevation Model (DEM).
+Individual tree segmentation is a fundamental component of modern forestry, significantly improving the efficiency of forest monitoring and management. By automating analysis at the single-tree scale, this method allows for the precise estimation of key structural parameters, such as biomass and carbon stocks, reducing the reliance on labor-intensive traditional fieldwork. Ultimately, these insights empower more informed and sustainable forest management. In this analysis, the lidR package was used to evaluate two primary segmentation methods on four different plots within the Malcolm Knapp Research Forest in British Columbia. Point cloud normalization and filtering was completed prior to segmentation using a point-cloud derived Digital Elevation Model (DEM).
 
 ## Method 1
 

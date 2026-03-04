@@ -7,7 +7,7 @@ format:
 image: "py_parks_cover.png" 
 ---
 
-Species at risk (SAR), particularly those with specialized habitat requirements, are highly vulnerable to landscape change driven by human activity and development. Protected areas are intended to mitigate these pressures by conserving critical habitats and maintaining biodiversity. However, while national parks encompass a range of ecosystems, certain habitats essential to SAR may be underrepresented within park boundaries and therefore inadequately protected. This national-scale analysis evaluates which SAR occur within Canadian national parks and assesses whether their associated habitats are sufficiently represented. For this study, the analysis focused on terrestrial mammals, with all data processing conducted in Python using Pandas, GeoPandas, and Matplotlib.
+Species at risk (SAR), particularly those with specialized habitat requirements, are highly vulnerable to landscape change driven by human activity and development. Protected areas are intended to mitigate these pressures by conserving critical habitats and maintaining biodiversity. However, while national parks encompass a range of ecosystems, certain habitats essential to SAR may be underrepresented within park boundaries and therefore inadequately protected. This analysis evaluates which SAR (focus on terrestrial mammal) occur within Canadian National Parks and assesses whether their associated habitats are sufficiently represented. All data processing was conducted in Python using Pandas, GeoPandas, and Matplotlib.
 
 Project Co-creators: Kenzie Stevenson, Asiya Rizva
 
@@ -257,7 +257,7 @@ National Parks and number of occurring listed species:
 :::
 
 ::: {.callout-note collapse="true"}
-## Assign final weighted score to each park
+## Assign weighted conservation score to each park
 
 ```         
 # Merge the DataFrames to have SARA_values from rank_value_df
@@ -313,7 +313,7 @@ The top 5 parks with highest conservation value are
 Click the drop downs to view code
 
 ::: {.callout-note collapse="true"}
-## Use point buffer as indicator of species core habitat
+## Use observation buffer as indicator of species core habitat
 
 ```         
 # Make sure CRS of two input layers match

@@ -3,11 +3,11 @@ title: "Site Suitability Model for Utility Scale Solar Farms in BC"
 image: "Cover_Page_yellow.png" 
 ---
 
-This project utilizes the Analytic Hierarchy Process (AHP), a Multi-Criteria Decision Analysis (MCDA) framework, to evaluate potential locations for utility-scale (1MW+) solar development across British Columbia. By integrating environmental, technical, and economic variables, the study identifies optimal development zones while strictly adhering to provincial land-use regulations.
+This project utilizes the Analytic Hierarchy Process (AHP) - a Multi-Criteria Decision Analysis (MCDA) framework - to evaluate potential locations for utility-scale (1MW+) solar farms across British Columbia. By integrating environmental, technical, and economic variables, the study identifies optimal development zones while strictly adhering to provincial land-use regulations.
 
 ## **The Suitability Framework**
 
-The model balances development potential against environmental constraints through a weighted overlay of key criteria:
+The model balances development potential against environmental constraints uisng these key considerations:
 
 | Technical & Economic Drivers | Environmental & Regulatory Constraints |
 |------------------------------------|------------------------------------|
@@ -18,7 +18,7 @@ The model balances development potential against environmental constraints throu
 
 ## **Technical Workflow & Implementation**
 
-To translate these diverse datasets into a unified suitability model, I developed a custom spatial workflow in R involving these key steps:
+To translate these diverse datasets into a unified suitability model, I developed a custom workflow in R involving these key steps:
 
 -   Data Harmonization: Standardized heterogeneous datasets into a common 30m grid aligned with the BC Environmental Albers (EPSG:3005) projection.
 
@@ -31,7 +31,7 @@ To translate these diverse datasets into a unified suitability model, I develope
 **Calculated Suitability Weights**
 
 | Criterion | Derived Weight | Primary Justification |
-|-----------------------|---------------|----------------------------------|
+|------------------------|------------------------|------------------------|
 | Global Horizontal Irradiance (GHI) | 26.8 | The fundamental driver of project energy generation potential |
 | Proximity to Energy Infrastructure | 25.9 | Influence on grid optimization and installation costs |
 | Proximity to Major Roads | 24.8 | Increases site accessibility and facilitates construction |
@@ -130,11 +130,7 @@ addSidebyside(layerId = "sidecontrols",
 ::: {.column width="48%"}
 ![Suitability Distribution Across BC’s Total Land Base](images/SuitDistribution_percent_v2.png)
 
-76.5% (723,947.99 km²) of BC is restricted from solar farm development. Non-restricted land\
-accounts for the remaining 23.55% (223,027.33 km²) of the province. Within this area, class 1\
-comprises 3.86% of the provincial land base, class 2 represents the largest share at 16.21%, and\
-class 3 accounts for 3.25%. The highest suitability classes occupy only a very small portion of the\
-province, with class 4 covering 0.21% and class 5 covering just 0.005%.
+It was found that 76.5% (723,947.99 km²) of BC is restricted from solar farm development. Non-restricted land accounts for the remaining 23.55% (223,027.33 km²) of the province. Within this area, class 1 comprises 3.86% of the provincial land base, class 2 represents the largest share at 16.21%, and class 3 accounts for 3.25%. The highest suitability classes occupy only a very small portion of the province, with class 4 covering 0.21% and class 5 covering just 0.005%.
 :::
 
 ::: {.column width="4%"}

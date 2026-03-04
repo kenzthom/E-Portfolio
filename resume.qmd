@@ -22,7 +22,7 @@ title: "Mackenzie Thomson | CV"
 
     *Current*
 
-    Support undergraduate students in applied geomatics labs, including GIS, remote sensing, and spatial data analysis for natural resource management. Provided technical guidance on workflows and troubleshooting to reinforce geospatial concepts and analytical accuracy. Assist with grading, lab evaluation, and instructional support to ensure consistency with course learning objectives.
+    Support undergraduate students in applied geomatics labs, including GIS, remote sensing, and spatial data analysis for natural resource management. Provide technical guidance on workflows and troubleshooting to reinforce geospatial concepts and analytic accuracy. Assist with grading, lab evaluation, and instructional support to ensure consistency with course learning objectives.
 
 -   **The University of British Columbia** - *Earth Systems Laboratory Teaching Assistant*
 
@@ -36,13 +36,13 @@ title: "Mackenzie Thomson | CV"
 
     August 2024 – August 2025
 
-    Collected, analyzed, and mapped data on tree stands to manage forest vegetation health, growth, and natural resources. Designed and established GPS-marked harvest block boundaries and access roads. Utilized ArcGIS Field Maps, QGIS and RoadEng for effective data visualizations that support informed decision making. Supported the execution of hydro-based capital projects.  
+    Collected, analyzed, and mapped data on tree stands to manage forest vegetation health, growth, and natural resources. Designed and established GPS-marked harvest block boundaries and access roads. Utilized ArcGIS Field Maps, QGIS, and RoadEng for effective data visualizations that support informed decision making. Supported the execution of hydro-based capital projects.  
 
 -   **The City of Vancouver** - *Assistant Wildlife Technician*
 
     April 2023 – December 2023
 
-    Assisted in developing and implementing the Park Board’s Canada Goose Management Plan. Conducted field surveys to monitor population, habitat use, and behavior. 2 Leveraged data collected in ArcGIS FieldMaps to inform management strategies. Collaborated with local stakeholders to ensure effective wildlife management.
+    Assisted in the development and implementation of the Park Board’s Canada Goose Management Plan. Conducted field surveys to monitor goose population, habitat use, and behavior. Leveraged data collected in ArcGIS FieldMaps to inform management strategies. Collaborated with local stakeholders to ensure effective wildlife management.
 
 -   **Tap & Barrel Group** - *Lead Server, Event Server, Shift Manager*
 

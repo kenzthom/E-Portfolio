@@ -9,11 +9,11 @@ Please feel free to reach out with any questions, project ideas, or just to say 
 [LinkedIn](https://www.linkedin.com/in/mackenzie-thomson-455828253/){.btn .btn-primary} [GitHub](https://github.com/kenzthom){.btn .btn-primary} [Email](mailto:kenzthom@student.ubc.ca){.btn .btn-primary}
 
 ::::: {.columns style="gap:10px;"}
-::: {.column width="50%"}
+::: {.column width="35%"}
 ![](images/mebike.jpg)
 :::
 
-::: {.column width="50%"}
+::: {.column width="35%"}
 ![](images/sheds.jpg)
 :::
 :::::

@@ -158,10 +158,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Time series analysis are powerful due to their capabilities in predicting future trends based on historical patterns. Moving beyond static analysis enables proactive decision making and better resource planning. Two separate time series analysis were undergone:</p>
+<p>Time series analysis is powerful due to its capabilities in predicting future trends based on historical patterns. Moving beyond static analysis enables proactive decision making and better resource planning. Two separate time series analyses were explored:</p>
 <section id="ndvi-time-series-analysis-in-yellowhead-country-ab" class="level2">
 <h2 class="anchored" data-anchor-id="ndvi-time-series-analysis-in-yellowhead-country-ab">NDVI Time-Series Analysis in Yellowhead Country, AB</h2>
-<p>With NDVI data from the MODIS imagery (MOD13Q1), a time series analysis from 2001 to 2020 was completed. The BFAST change detection algorithm was used to determine NDVI deviation from the expected pattern over two different areas of interest. Examining the evolution of NDVI after each break, allowed informed predictions about the cause of each break to be made.</p>
+<p>With NDVI data from the MODIS imagery (MOD13Q1), a time series analysis from 2001 to 2020 was completed. The BFAST change detection algorithm was used to determine NDVI deviation from the expected pattern over two different areas of interest. Examining the evolution of NDVI after each break allowed informed predictions to be made about the cause of each break.</p>
 <p>Check out some code snippets:</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -259,7 +259,7 @@ plot(bfm_B)</code></pre>
 </div><div class="column" style="width:40%;">
 <section id="change-detection-for-area-a" class="level3">
 <h3 class="anchored" data-anchor-id="change-detection-for-area-a">Change Detection for Area A</h3>
-<p>A break in expected NDVI pattern occurred in 2009. Due to the sustained decreased NDVI values, a land use change from forest to agriculture was predicted.</p>
+<p>A break in the expected NDVI pattern occurred in 2009. Due to the sustained decreased NDVI values in the years following the break, a land use change from forest to agriculture was predicted.</p>
 </section>
 </div>
 </div>
@@ -279,7 +279,7 @@ plot(bfm_B)</code></pre>
 </section>
 <section id="land-use-change-time-series-analysis-in-williams-lake-bc" class="level2">
 <h2 class="anchored" data-anchor-id="land-use-change-time-series-analysis-in-williams-lake-bc">Land Use Change Time-Series Analysis in Williams Lake, BC</h2>
-<p>With Landsat imagery, a time series analysis from 1984 to 2016 was completed to detect changes in land use resulting from forest management. The aim was to examine the evolution if total forested area through time, balancing loss from harvesting and gain from regeneration.</p>
+<p>With Landsat imagery, a time series analysis from 1984 to 2016 was completed to detect changes in land use resulting from forest management. The aim was to examine the evolution of total forested area through time, balancing loss from harvesting with gain from regeneration.</p>
 <p>Check out some code snippets:</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
@@ -402,7 +402,7 @@ scale_fill_discrete(labels = c("area_loss_ha" = "Loss", "area_gain_ha" = "Gain")
 </div><div class="column" style="width:40%;">
 <section id="yearly-net-forest-change-in-hectares-across-time-series" class="level3">
 <h3 class="anchored" data-anchor-id="yearly-net-forest-change-in-hectares-across-time-series">Yearly Net Forest Change in Hectares Across Time-Series</h3>
-<p>Two prominent events of net forest change are seen. Forest gain is largely concentrated in the early 1990’s, while loss is dominated in 2004.</p>
+<p>Two prominent events of net forest change are seen. Net forest gain is largely concentrated in the early 1990’s, while net forest loss dominates in 2004.</p>
 </section>
 </div>
 </div>
@@ -414,7 +414,7 @@ scale_fill_discrete(labels = c("area_loss_ha" = "Loss", "area_gain_ha" = "Gain")
 </div><div class="column" style="width:40%;">
 <section id="forest-gain-and-loss-quantified-across-time-series" class="level3">
 <h3 class="anchored" data-anchor-id="forest-gain-and-loss-quantified-across-time-series">Forest Gain and Loss Quantified Across Time Series</h3>
-<p>Individual gain and loss shown per year. Prominent gain can be seen in the early 1990’s while prominent loss can be see in the early 2000’s. Year to year variable can be seen throughout.</p>
+<p>Individual gain and loss per hectare is shown per year. Prominent gain can be seen in the early 1990’s while prominent loss can be see in the early 2000’s. Year to year changes in forest area can be seen throughout the time series.</p>
 </section>
 </div>
 </div>

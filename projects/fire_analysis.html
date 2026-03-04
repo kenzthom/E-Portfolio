@@ -151,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The summer of 2017 was one of the most severe fire seasons in British Columbia, including the Prouton Lakes fire near Williams Lake. This project quantified burn severity and tracked post-fire vegetation recovery using multi-temporal Landsat 8 OLI imagery. I processed large volumes of imagery by developing custom functions and implementing iterative workflows to efficiently calculate burn severity and vegetation indices and monitor landscape-scale recovery patterns over multiple years.</p>
+<p>The summer of 2017 was one of the most severe fire seasons in British Columbia, which included the Prouton Lakes fire near Williams Lake, BC. This project quantified burn severity and tracked post-fire vegetation recovery using multi-temporal Landsat 8 OLI imagery. In this analysis, a large volume of satellite imagery was processed through the development of custom functions and implemention of iterative workflows. The main objectives were to calculate burn severity and vegetation indices across the study area, allowing visualization and quantification of landscape level recovery patterns over multiple years.</p>
 <p>Check out some code snippets:</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -554,7 +554,7 @@ ggplot(ndvi_per_bs, aes(x=year, y=ndvi, fill=burn_class)) +
 <div class="column" style="width:40%;">
 <p><img src="..\images/ndvi_bord.png" class="img-fluid"></p>
 </div><div class="column" style="width:60%;">
-<p><strong>Image 1:</strong> Yearly composite of NDVI averaged across July and August in the Prouton Lakes fire area . Pixels with unclear conditions have been masked using Landsats QA Pixel layer.</p>
+<p><strong>Image 1:</strong> Yearly composite of NDVI averaged across July and August in the Prouton Lakes fire area. Pixels with unclear conditions (smoke/cloud) have been masked using Landsats QA Pixel layer.</p>
 </div>
 </div>
 <p><br></p>
